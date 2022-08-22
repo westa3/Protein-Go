@@ -24,14 +24,9 @@
       </a>
     </div>
     <script>
-	(async function() {
-	  const isArSessionSupported = navigator.xr && navigator.xr.isSessionSupported && await navigator.xr.isSessionSupported("immersive-ar");
-	  if (isArSessionSupported) {
+	(async function () {
 	    document.getElementById("enter-ar").addEventListener("click", window.app.activateXR)
-	  } else {
-	    onNoXRDevice();
-	  }
-	})();
+	});
 	/**
 	 * Container class to manage connecting to the WebXR Device API
 	 * and handle rendering on every frame.
