@@ -50,13 +50,7 @@
             firstTime = false;
         } else {
             const animation = document.createElement('a-animation');
-            animation.setAttribute('attribute', 'position');
-            animation.setAttribute('to', stringify(target));
-            animation.setAttribute('dur', 5000);
-            animation.setAttribute('easing', 'linear');
-            walker.appendChild(animation);
         }
-        });
     </script>
         <a-entity id="walker">
             <a-plane width="0.5" height="0.5" position="0 0 0" rotation="-90 0 0" color="white" shadow="receive: true"></a-plane>
