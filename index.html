@@ -10,6 +10,7 @@
   <script src="https://unpkg.com/three@0.126.0/examples/js/loaders/GLTFLoader.js"></script>
 </head>
 <body>
+	<button onclick="activateXR()">Start Protein Go!</button>
 	<script>
 		async function activateXR() {
 		// Add a canvas element and initialize a WebGL context that is compatible with WebXR.
@@ -97,7 +98,6 @@
 		}
 		session.requestAnimationFrame(onXRFrame);
 		}}
-		</script>
-	<button onclick="activateXR()">Start Protein Go!</button>
+	</script>
 </body>
 </html>
