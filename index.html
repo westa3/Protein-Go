@@ -12,9 +12,6 @@
     </script>
 </head>
 <body style='margin: 0; overflow: hidden;'>
-	<a-assets>
-            <a-asset id="cesium-man" src="separated_colored.glb"></a-asset>
-        </a-assets>
     <a-scene
         vr-mode-ui="enabled: false"
 		embedded
@@ -33,6 +30,9 @@
         shadow-material>
         </a-plane>
 	</a-scene>
+	<a-assets>
+            <a-asset id="cesium-man" src="separated_colored.glb"></a-asset>
+        </a-assets>
 	<script type="text/javascript">
         function onSceneLoaded() {
             const raycaster = document.querySelector('[ar-raycaster]');
