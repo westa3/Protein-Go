@@ -16,15 +16,23 @@
         vr-mode-ui="enabled: false"
 		embedded
         arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
-        <a-ring id="cursor" radius-inner="0.02" radius-outer="0.03"  
-        color="teal" position="0 -0.8 -5" rotation="-90 0 0">
-	</a-ring>
 	<a-assets>
             <a-asset id="cesium-man" src="separated_colored.glb"></a-asset>
         </a-assets>
         <script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/cfe5f316/dist/aframe-extras.js"></script>
 	<a-entity id="walker" gltf-model="#cesium-man" position="0 0 -5" scale="0.1 0.1 0.1" animation-mixer></a-entity>
 	<a-camera ar-raycaster raycaster cursor="fuse:false"> </a-camera>
+	<a-ring id="cursor" radius-inner="0.02" radius-outer="0.03"  
+        color="teal" position="0 -0.8 -5" rotation="-90 0 0">
+	</a-ring>
+        <a-entity id="walker">
+            <a-plane width="0.5" height="0.5" position="0 0 0" rotation="-90 0 0" color="white" shadow="receive: true"></a-plane>
+        </a-entity>
+        <a-plane width="0.5" height="0.5" position="0 0 0" 
+        rotation="-90 0 0" color="white" shadow="receive: true" 
+        shadow-material>
+        </a-plane>
+	</a-scene>
 	<script type="text/javascript">
         function onSceneLoaded() {
             const raycaster = document.querySelector('[ar-raycaster]');
@@ -39,11 +47,8 @@
         raycaster.addEventListener('click', () => {
         walker.setAttribute('position', raycaster.components.cursor.intersection.point);
         });
-    </script>
-        <a-entity id="walker">
-            <a-plane width="0.5" height="0.5" position="0 0 0" rotation="-90 0 0" color="white" shadow="receive: true"></a-plane>
-        </a-entity>
-        <script type="text/javascript">
+    	</script>
+	<script type="text/javascript">
             AFRAME.registerComponent('shadow-material', {
             init() {
                 this.material = new THREE.ShadowMaterial();
@@ -52,10 +57,5 @@
             }
             });
         </script>
-        <a-plane width="0.5" height="0.5" position="0 0 0" 
-        rotation="-90 0 0" color="white" shadow="receive: true" 
-        shadow-material>
-        </a-plane>
-	</a-scene>
     </body>
 </html>
