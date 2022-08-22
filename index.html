@@ -12,13 +12,13 @@
     </script>
 </head>
 <body style='margin: 0; overflow: hidden;'>
+	<a-assets>
+            <a-asset id="cesium-man" src="separated_colored.glb"></a-asset>
+        </a-assets>
     <a-scene
         vr-mode-ui="enabled: false"
 		embedded
         arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
-	<a-assets>
-            <a-asset id="cesium-man" src="separated_colored.glb"></a-asset>
-        </a-assets>
         <script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/cfe5f316/dist/aframe-extras.js"></script>
 	<a-entity id="walker" gltf-model="#cesium-man" position="0 0 -5" scale="0.1 0.1 0.1" animation-mixer></a-entity>
 	<a-camera ar-raycaster raycaster cursor="fuse:false"> </a-camera>
