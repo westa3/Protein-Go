@@ -17,13 +17,13 @@
 		embedded
         arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
         <a-camera ar-raycaster raycaster cursor="fuse:false"> </a-camera>
-        <a-assets>
+	</a-scene>
+	<a-assets>
             <a-asset id="cesium-man" src="separated_colored.glb"></a-asset>
         </a-assets>
         <a-entity gltf-model="#cesium-man" scale="0.15 0.15 0.15" rotation="0 -90 0" animation-mixer 
         shadow="cast: true">
         </a-entity>
-	</a-scene>
     <script type="text/javascript">
         function onSceneLoaded() {
             const raycaster = document.querySelector('[ar-raycaster]');
