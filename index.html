@@ -25,8 +25,7 @@
         <script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/cfe5f316/dist/aframe-extras.js"></script>
 	<a-entity id="walker" gltf-model="#cesium-man" position="0 0 -5" scale="0.1 0.1 0.1" animation-mixer></a-entity>
 	<a-camera ar-raycaster raycaster cursor="fuse:false"> </a-camera>
-	</a-scene>
-    <script type="text/javascript">
+	<script type="text/javascript">
         function onSceneLoaded() {
             const raycaster = document.querySelector('[ar-raycaster]');
             const cursor = document.querySelector('#cursor');
@@ -65,5 +64,6 @@
         rotation="-90 0 0" color="white" shadow="receive: true" 
         shadow-material>
         </a-plane>
+	</a-scene>
     </body>
 </html>
