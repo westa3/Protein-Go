@@ -12,21 +12,22 @@
     </script>
 </head>
 <body style='margin: 0; overflow: hidden;'>
-  <a-scene
-        vr-mode-ui="enabled: false"
-		embedded
-        arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
-        <a-assets>
-            <a-asset id="cesium-man" src="separated_colored.glb"></a-asset>
-        </a-assets>
-        <a-entity gltf-model="#cesium-man" scale="0.15 0.15 0.15" rotation="0 -90 0" animation-mixer 
-        shadow="cast: true">
-        </a-entity>
-	<a-camera ar-raycaster raycaster cursor="fuse:false"> </a-camera>
-	<a-ring id="cursor" radius-inner="0.1" radius-outer="0.2"  
-        color="teal" position="0 -0.8 -5" rotation="-90 0 0">
-	</a-ring>
-  </a-scene>
+	<script src="https://aframe.io/releases/0.7.1/aframe.min.js"></script>
+  	<a-scene
+		vr-mode-ui="enabled: false"
+			embedded
+		arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
+		<a-assets>
+		    <a-asset id="cesium-man" src="separated_colored.glb"></a-asset>
+		</a-assets>
+		<a-entity gltf-model="#cesium-man" scale="0.15 0.15 0.15" rotation="0 -90 0" animation-mixer 
+		shadow="cast: true">
+		</a-entity>
+		<a-camera ar-raycaster raycaster cursor="fuse:false"> </a-camera>
+		<a-ring id="cursor" radius-inner="0.1" radius-outer="0.2"  
+		color="teal" position="0 -0.8 -5" rotation="-90 0 0">
+		</a-ring>
+  	</a-scene>
 	<script type="text/javascript">
   		function onSceneLoaded() {
     		const raycaster = document.querySelector('[ar-raycaster]');
