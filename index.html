@@ -1,192 +1,67 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Protein Go!</title>
-    <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
-    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+<!-- Import A-Frame and AR.js libraries -->
+<script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@1c2407b26c61958baa93967b5412487cd94b290b/dist/aframe-master.min.js"></script>
+<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+ 
+<!-- Loading Screen Styles -->
+<style>
+  .arjs-loader {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+ 
+  .arjs-loader div {
+    text-align: center;
+    font-size: 1.25em;
+    color: white;
+  }
+</style>
+ 
+<body style="margin : 0px; overflow: hidden;">
+  <!-- Minimal Loader Description until the assets are loaded -->
+  <div class="arjs-loader">
+    <div>Loading, please wait...</div>
+  </div>
+ 
+  <!-- A-Frame Scene -->
+  <a-scene
+    vr-mode-ui="enabled: false;"
+    renderer="logarithmicDepthBuffer: true;"
+    embedded
+    arjs="trackingMethod: best; sourceType: webcam;debugUIEnabled: false;"
+  >
+    <!-- The ring used for Tracking -->
+  <a-ring id="cursor" radius-inner="0.1" radius-outer="0.2"  
+   color="teal" position="0 -0.8 -5" rotation="-90 0 0">
+	  
+      <!-- Define the GLTF model -->
+      <a-entity
+        gltf-model="separated_colored.glb"
+        scale="5 5 5"
+        position="50 150 0"
+      >
+      </a-entity>
+    </a-ring>
+    <!-- Create the Static Camera -->
+    <a-entity camera></a-entity>
+  </a-scene>
+  <script type="text/javascript">
+  function onSceneLoaded() {
+    const raycaster = document.querySelector('[ar-raycaster]');
+    const cursor = document.querySelector('#cursor');
+    raycaster.addEventListener('raycaster-intersection', (event) => {
+      cursor.setAttribute('position', event.detail.intersections[0].point);
+    });
+  }
 
-    <!-- three.js -->
-    <script src="https://unpkg.com/three@0.126.0/build/three.js"></script>
-    <script src="https://unpkg.com/three@0.126.0/examples/js/loaders/GLTFLoader.js"></script>
-
-    <link rel="stylesheet" type="text/css" href="../shared/app.css" />
-    <script src="../shared/utils.js"></script>
-  </head>
-  <body>
-    <div id="enter-ar-info" class="mdc-card demo-card">
-      <h2>Augmented Reality with the WebXR Device API</h2>
-
-      <!-- Starting an immersive WebXR session requires user interaction. Start the WebXR experience with a simple button. -->
-      <a id="enter-ar" class="mdc-button mdc-button--raised mdc-button--accent">
-        Start augmented reality
-      </a>
-    </div>
-    <script>
-	(async function () {
-	    document.getElementById("enter-ar").addEventListener("click", window.app.activateXR)
-	});
-	/**
-	 * Container class to manage connecting to the WebXR Device API
-	 * and handle rendering on every frame.
-	 */
-	class App {
-	  /**
-	   * Run when the Start AR button is pressed.
-	   */
-	  activateXR = async () => {
-	    try {
-	      // Initialize a WebXR session using "immersive-ar".
-	      this.xrSession = await navigator.xr.requestSession("immersive-ar", {
-		requiredFeatures: ['hit-test', 'dom-overlay'],
-		domOverlay: { root: document.body }
-	      });
-
-	      // Create the canvas that will contain our camera's background and our virtual scene.
-	      this.createXRCanvas();
-
-	      // With everything set up, start the app.
-	      await this.onSessionStarted();
-	    } catch(e) {
-	      console.log(e);
-	      onNoXRDevice();
-	    }
-	  }
-
-	  /**
-	   * Add a canvas element and initialize a WebGL context that is compatible with WebXR.
-	   */
-	  createXRCanvas() {
-	    this.canvas = document.createElement("canvas");
-	    document.body.appendChild(this.canvas);
-	    this.gl = this.canvas.getContext("webgl", {xrCompatible: true});
-
-	    this.xrSession.updateRenderState({
-	      baseLayer: new XRWebGLLayer(this.xrSession, this.gl)
-	    });
-	  }
-
-	  /**
-	   * Called when the XRSession has begun. Here we set up our three.js
-	   * renderer, scene, and camera and attach our XRWebGLLayer to the
-	   * XRSession and kick off the render loop.
-	   */
-	  onSessionStarted = async () => {
-	    // Add the `ar` class to our body, which will hide our 2D components
-	    document.body.classList.add('ar');
-
-	    // To help with working with 3D on the web, we'll use three.js.
-	    this.setupThreeJs();
-
-	    // Setup an XRReferenceSpace using the "local" coordinate system.
-	    this.localReferenceSpace = await this.xrSession.requestReferenceSpace('local');
-
-	    // Create another XRReferenceSpace that has the viewer as the origin.
-	    this.viewerSpace = await this.xrSession.requestReferenceSpace('viewer');
-	    // Perform hit testing using the viewer as origin.
-	    this.hitTestSource = await this.xrSession.requestHitTestSource({ space: this.viewerSpace });
-
-	    // Start a rendering loop using this.onXRFrame.
-	    this.xrSession.requestAnimationFrame(this.onXRFrame);
-
-	    this.xrSession.addEventListener("select", this.onSelect);
-	  }
-
-	  /** Place a sunflower when the screen is tapped. */
-	  onSelect = () => {
-	    if (window.sunflower) {
-	      const clone = window.sunflower.clone();
-	      clone.position.copy(this.reticle.position);
-	      this.scene.add(clone)
-
-	      const shadowMesh = this.scene.children.find(c => c.name === 'shadowMesh');
-	      shadowMesh.position.y = clone.position.y;
-	    }
-	  }
-
-	  /**
-	   * Called on the XRSession's requestAnimationFrame.
-	   * Called with the time and XRPresentationFrame.
-	   */
-	  onXRFrame = (time, frame) => {
-	    // Queue up the next draw request.
-	    this.xrSession.requestAnimationFrame(this.onXRFrame);
-
-	    // Bind the graphics framebuffer to the baseLayer's framebuffer.
-	    const framebuffer = this.xrSession.renderState.baseLayer.framebuffer
-	    this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, framebuffer)
-	    this.renderer.setFramebuffer(framebuffer);
-
-	    // Retrieve the pose of the device.
-	    // XRFrame.getViewerPose can return null while the session attempts to establish tracking.
-	    const pose = frame.getViewerPose(this.localReferenceSpace);
-	    if (pose) {
-	      // In mobile AR, we only have one view.
-	      const view = pose.views[0];
-
-	      const viewport = this.xrSession.renderState.baseLayer.getViewport(view);
-	      this.renderer.setSize(viewport.width, viewport.height)
-
-	      // Use the view's transform matrix and projection matrix to configure the THREE.camera.
-	      this.camera.matrix.fromArray(view.transform.matrix)
-	      this.camera.projectionMatrix.fromArray(view.projectionMatrix);
-	      this.camera.updateMatrixWorld(true);
-
-	      // Conduct hit test.
-	      const hitTestResults = frame.getHitTestResults(this.hitTestSource);
-
-	      // If we have results, consider the environment stabilized.
-	      if (!this.stabilized && hitTestResults.length > 0) {
-		this.stabilized = true;
-		document.body.classList.add('stabilized');
-	      }
-	      if (hitTestResults.length > 0) {
-		const hitPose = hitTestResults[0].getPose(this.localReferenceSpace);
-
-		// Update the reticle position
-		this.reticle.visible = true;
-		this.reticle.position.set(hitPose.transform.position.x, hitPose.transform.position.y, hitPose.transform.position.z)
-		this.reticle.updateMatrixWorld(true);
-	      }
-
-	      // Render the scene with THREE.WebGLRenderer.
-	      this.renderer.render(this.scene, this.camera)
-	    }
-	  }
-
-	  /**
-	   * Initialize three.js specific rendering code, including a WebGLRenderer,
-	   * a demo scene, and a camera for viewing the 3D content.
-	   */
-	  setupThreeJs() {
-	    // To help with working with 3D on the web, we'll use three.js.
-	    // Set up the WebGLRenderer, which handles rendering to our session's base layer.
-	    this.renderer = new THREE.WebGLRenderer({
-	      alpha: true,
-	      preserveDrawingBuffer: true,
-	      canvas: this.canvas,
-	      context: this.gl
-	    });
-	    this.renderer.autoClear = false;
-	    this.renderer.shadowMap.enabled = true;
-	    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-
-	    // Initialize our demo scene.
-	    this.scene = DemoUtils.createLitScene();
-	    this.reticle = new Reticle();
-	    this.scene.add(this.reticle);
-
-	    // We'll update the camera matrices directly from API, so
-	    // disable matrix auto updates so three.js doesn't attempt
-	    // to handle the matrices independently.
-	    this.camera = new THREE.PerspectiveCamera();
-	    this.camera.matrixAutoUpdate = false;
-	  }
-	};
-
-	window.app = new App();
-    </script>
-    <div id="stabilization"></div>
-  </body>
-</html>
+  const scene = document.querySelector('a-scene');
+  scene.addEventListener('loaded', onSceneLoaded);
+  </script>
+</body>
