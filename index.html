@@ -17,15 +17,16 @@
 			embedded
 		arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
 		<a-assets>
-		    <a-asset id="cesium-man" src="separated_colored.glb"></a-asset>
+			<a-asset id="cesium-man" src="separated_colored.glb"></a-asset>
+			<a-ring id="cursor" radius-inner="0.1" radius-outer="0.2"  
+			color="teal" position="0 -0.8 -5" rotation="-90 0 0">
+			</a-ring>
 		</a-assets>
-		<a-entity gltf-model="#cesium-man" scale="0.15 0.15 0.15" rotation="0 -90 0" animation-mixer 
-		shadow="cast: true">
+		<script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/cfe5f316/dist/aframe-extras.js"></script>
+		<a-entity id="walker" gltf-model="#cesium-man" position="0 0 -5" scale="0.5 0.5 0.5" 
+          	animation-mixer>
 		</a-entity>
 		<a-camera ar-raycaster raycaster cursor="fuse:false"> </a-camera>
-		<a-ring id="cursor" radius-inner="0.1" radius-outer="0.2"  
-		color="teal" position="0 -0.8 -5" rotation="-90 0 0">
-		</a-ring>
   	</a-scene>
 	<script type="text/javascript">
   		function onSceneLoaded() {
