@@ -39,14 +39,6 @@
         raycaster.addEventListener('click', () => {
         walker.setAttribute('position', raycaster.components.cursor.intersection.point);
         });
-	const walker = document.querySelector('#walker');
-	const { stringify } = AFRAME.utils.coordinates;
-        let firstTime = true;
-        raycaster.addEventListener('click', () => {
-        const target = raycaster.components.cursor.intersection.point;
-        if (firstTime) {
-            walker.setAttribute('position', target);
-            firstTime = false;
     </script>
         <a-entity id="walker">
             <a-plane width="0.5" height="0.5" position="0 0 0" rotation="-90 0 0" color="white" shadow="receive: true"></a-plane>
