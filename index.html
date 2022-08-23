@@ -19,7 +19,6 @@
         <a-assets timeout="30000">
             <a-asset-item id="capsid" src="separated_colored.glb" response-type="arraybuffer"></a-asset-item>
         </a-assets>
-        <a-camera position="0 1.2 0"></a-camera>
         <a-entity id="full_capsid" position="0 0 -40" scale="0.1 0.1 0.1">
         <a-entity position="0 0 -40" rotation="0 55 0"
                     gltf-model="#capsid"
@@ -42,9 +41,9 @@
                 shadow="receive: true"
                 ar-shadows="opacity: 0.3"
                 visible="false"></a-plane>
+	<a-camera position="0 1.2 0"></a-camera>
 	<a-ring id="cursor" radius-inner="0.1" radius-outer="0.2" color="teal" position="0 -0.8 -5" rotation="-90 0 0"></a-ring>
-   </a-scene>
-   <script type="text/javascript">
+	<script type="text/javascript">
 	  function onSceneLoaded() {
 	    const raycaster = document.querySelector('[ar-raycaster]');
 	    const cursor = document.querySelector('#cursor');
@@ -58,6 +57,7 @@
 	  raycaster.addEventListener('click', () => {
   	  walker.setAttribute('position', raycaster.components.cursor.intersection.point);
 	  });
-   </script>
+   	</script>
+   </a-scene>
  </body>
 </html>
