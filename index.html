@@ -43,5 +43,18 @@
                 ar-shadows="opacity: 0.3"
                 visible="false"></a-plane>
 	    </a-scene>
+	<script>
+	  /** Place a sunflower when the screen is tapped. */
+	  onSelect = () => {
+	    if (window.capsid) {
+	      const clone = window.capsid.clone();
+	      clone.position.copy(this.reticle.position);
+	      this.scene.add(clone)
+
+	      const shadowMesh = this.scene.children.find(c => c.name === 'shadowMesh');
+	      shadowMesh.position.y = clone.position.y;
+	    }
+	  }
+	</script>
     </body>
 </html>
