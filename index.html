@@ -20,32 +20,4 @@
     </a-entity>
   </a-entity>
   </a-scene>
-  <script>
-  ar-hit-test="target:#some-element"
-  webxr="overlayElement:#overlay"
-  </script>
-  </a-scene>
-  <div id=”overlay”></div>
-  <script type="text/javascript">
-  sceneEl.addEventListener('enter-vr', function () {
-  if (this.is('ar-mode')) {
-    message.textContent = '';
-
-    this.addEventListener('ar-hit-test-start', function () {
-      message.innerHTML = `Scanning environment, finding surface.`
-    }, { once: true });
-
-    this.addEventListener('ar-hit-test-achieved', function () {
-      message.innerHTML = `Select the location to place the furniture. By tapping on the screen or selecting with your controller.`
-    }, { once: true });
-
-    this.addEventListener('ar-hit-test-select', function () {
-      message.textContent = 'Object placed!';
-    }, { once: true });
-  }
-});
-  myButton.addEventListener('beforexrselect', e => {
-  e.preventDefault();
-});
-  </script>
 </body>
