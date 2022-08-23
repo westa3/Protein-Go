@@ -1,43 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Protein Go</title>
+    <title>XR Spinosaurus</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- import the webpage's stylesheet -->
+    <!-- import the webpage's stylesheet -->
     <link rel="stylesheet" href="/style.css">
-    
-    <script>
-      // WebXR requires HTTPS, so the site doesn't work if someone manually enters
-      // the URL and ends up using HTTP. To work around this, force redirect from
-      // http to https for non-localhost addresses.
-      if (window.location.protocol == "http:" &&
-          window.location.hostname != "localhost" && 
-          window.location.hostname != "127.0.0.1" &&
-          window.location.hostname != "[::1]") {
-        window.location = window.location.href.replace('http:', 'https:');        
-      }
-    </script> 
-<!-- Import A-Frame and AR.js libraries -->
-    <script src="https://aframe.io/releases/1.0.3/aframe.min.js"></script>
-    <script src="https://unpkg.com/aframe-extras@3.3.0/dist/aframe-extras.min.js"></script>
-    <script src="https://unpkg.com/aframe-environment-component@1.1.0/dist/aframe-environment-component.min.js"></script>
+    <script src="https://aframe.io/releases/0.7.1/aframe.min.js"></script>
+    <script src="https://google-ar.github.io/three.ar.js/dist/three.ar.js"></script>
+    <script src="https://rawgit.com/chenzlabs/aframe-ar/827e9db/dist/aframe-ar.min.js"></script>
   </head>
-  <body style="margin : 0px; overflow: hidden;">
-    <!-- A-Frame Scene -->
-    <a-scene vr-mode-ui="enabled: false;" renderer="logarithmicDepthBuffer: true;" embedded arjs="trackingMethod: best; sourceType: webcam;debugUIEnabled: false;">
-      <a-assets>
-        <a-asset-item id="capsid" src="separated_colored.glb"></a-asset-item>
-      </a-assets>
-      <a-entity id="full_capsid" position="-1 0 -3" scale="0.5 0.5 0.5">
-        <a-entity position="0 2.15 0" rotation="0 55 0"
-                gltf-model="#capsid"
-                animation-mixer
-                shadow="cast: true; receive: false">
-        </a-entity>
-      </a-entity>
-      <a-camera position="0 1.2 0"></a-camera>
+  <body>
+    <a-scene ar>
+      <a-box width="0.25" height="0.25" depth="0.25" position="-0.25 0.125 -0.75" rotation="0 45 0" color="#4CC3D9"></a-box>
+      <a-sphere position="0 0.3125 -1.25" radius="0.3125" color="#EF2D5E"></a-sphere>
+      <a-cylinder position="0.25 0.1875 -0.75" radius="0.125" height="0.375" color="#FFC65D"></a-cylinder>
+      <a-plane position="0 0 -1" rotation="-90 0 0" width="1" height="1" color="#7BC8A4" shadow></a-plane>
     </a-scene>
   </body>
 </html>
