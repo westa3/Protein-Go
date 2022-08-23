@@ -16,10 +16,10 @@
         vr-mode-ui="enabled: false"
 		embedded
         arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
+	<a-camera position="0 1.2 0"></a-camera>
         <a-assets timeout="30000">
             <a-asset-item id="capsid" src="separated_colored.glb" response-type="arraybuffer"></a-asset-item>
         </a-assets>
-	<a-camera position="0 1.2 0"></a-camera>
 	<a-ring id="cursor" radius-inner="0.1" radius-outer="0.2" color="teal" position="0 -0.8 -5" rotation="-90 0 0"></a-ring>
         <a-entity id="full_capsid" position="0 0 -40" scale="0.1 0.1 0.1">
         <a-entity position="0 0 -40" rotation="0 55 0"
