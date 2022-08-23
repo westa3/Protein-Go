@@ -11,7 +11,7 @@
     <script src="https://rawgit.com/chenzlabs/aframe-ar/827e9db/dist/aframe-ar.min.js"></script>
   </head>
   <body>
-    <a-scene ar>
+    <a-scene>
       <a-box width="0.25" height="0.25" depth="0.25" position="-0.25 0.125 -0.75" rotation="0 45 0" color="#4CC3D9"></a-box>
       <a-sphere position="0 0.3125 -1.25" radius="0.3125" color="#EF2D5E"></a-sphere>
       <a-cylinder position="0.25 0.1875 -0.75" radius="0.125" height="0.375" color="#FFC65D"></a-cylinder>
@@ -19,7 +19,8 @@
       <a-camera ar-raycaster raycaster cursor="fuse:false"> </a-camera>
       <a-ring id="cursor" radius-inner="0.1" radius-outer="0.2" color="teal" position="0 -0.8 -5" rotation="-90 0 0"></a-ring>
     </a-scene>
-    <script type="text/javascript">
+  </body>
+   <script type="text/javascript">
       function onSceneLoaded() {
         const raycaster = document.querySelector('[ar-raycaster]');
         const cursor = document.querySelector('#cursor');
@@ -31,5 +32,4 @@
       const scene = document.querySelector('a-scene');
       scene.addEventListener('loaded', onSceneLoaded);
     </script>
-  </body>
 </html>
