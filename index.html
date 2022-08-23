@@ -9,16 +9,17 @@
     embedded
     arjs="trackingMethod: best; sourceType: webcam;debugUIEnabled: false;"
   >
-    <!-- The ring used for Tracking -->
-    <!-- Define the GLTF model -->
-  <a-entity
-    gltf-model="separated_colored.glb"
-    scale="5 5 5"
-    position="0 0 -5"
-  >
+    <a-assets timeout="30000">
+      <a-asset-item id="capsid" src="separated_colored.glb"></a-asset-item>
+    </a-assets>
+  <a-camera position="0 1.2 0" ar-raycaster raycaster cursor="fuse:false"></a-camera>
+  <a-entity id="full_capsid" position="-1 0 -3" scale="0.5 0.5 0.5">
+    <a-entity position="0 2.15 0" rotation="0 55 0"
+              gltf-model="#capsid"
+              animation-mixer
+              shadow="cast: true; receive: false"></a-entity>
   </a-entity>
-    <!-- Create the Static Camera -->
-  <a-camera ar-raycaster raycaster cursor="fuse:false"></a-camera>
+  </a-scene>
   <script>
   ar-hit-test="target:#some-element"
   webxr="overlayElement:#overlay"
