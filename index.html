@@ -1,28 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Protein Go</title>
-    <script src="https://aframe.io/releases/0.7.1/aframe.min.js"></script>
-    <script src="https://google-ar.github.io/three.ar.js/dist/three.ar.js"></script>
-    <script src="https://rawgit.com/chenzlabs/aframe-ar/827e9db/dist/aframe-ar.min.js"></script>
-  </head>
-  <body style='margin: 0; overflow: hidden;'>
-    <a-scene>
-      <a-box width="0.25" height="0.25" depth="0.25" position="-0.25 0.125 -0.75" rotation="0 45 0" color="#4CC3D9"></a-box>
-      <a-camera ar-raycaster raycaster cursor="fuse:false"> </a-camera>
-      <a-ring id="cursor" radius-inner="0.1" radius-outer="0.2" color="teal" position="0 -0.8 -5" rotation="-90 0 0"></a-ring>
-    </a-scene>
-  </body style='margin: 0; overflow: hidden;'>
-   <script type="text/javascript">
-      function onSceneLoaded() {
-        const raycaster = document.querySelector('[ar-raycaster]');
-        const cursor = document.querySelector('#cursor');
-        raycaster.addEventListener('raycaster-intersection', (event) => {
-          cursor.setAttribute('position', event.detail.intersections[0].point);
-        });
-      }
-
-      const scene = document.querySelector('a-scene');
-      scene.addEventListener('loaded', onSceneLoaded);
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Protein-Go demo</title>
+    <script src='https://aframe.io/releases/0.9.2/aframe.min.js'></script>
+    <script src="https://raw.githack.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.min.js"></script>
+    <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
+    <script>
+        THREEx.ArToolkitContext.baseURL = 'https://raw.githack.com/jeromeetienne/ar.js/master/three.js/'
     </script>
+</head>
+<body style='margin: 0; overflow: hidden;'>
+    <a-scene
+        vr-mode-ui="enabled: false"
+		embedded
+        arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
+        <a-assets timeout="30000">
+            <a-asset-item id="capsid" src="separated_colored.glb" response-type="arraybuffer"></a-asset-item>
+        </a-assets>
+        <a-camera position="0 1.2 0"></a-camera>
+        <a-entity id="full_capsid" position="-1 0 -3" scale="0.5 0.5 0.5">
+        <a-entity position="0 2.15 0" rotation="0 55 0"
+                    gltf-model="#capsid"
+                    animation-mixer
+                    shadow="cast: true; receive: false"></a-entity>
+        </a-entity>  
+        <a-entity light="type: ambient; intensity: 0.5;"></a-entity>
+        <a-light type="directional"
+                light="castShadow: true;
+                        shadowMapHeight: 1024;
+                        shadowMapWidth: 1024;
+                        shadowCameraLeft: -7;
+                        shadowCameraRight: 5;
+                        shadowCameraBottom: -5;
+                        shadowCameraTop: 5;"
+                id="light"
+                target="full_capsid"
+                position="-5 3 1.5"></a-light>
+        <a-plane height="15" width="15" position="0 0 -3" rotation="-90 0 0"
+                shadow="receive: true"
+                ar-shadows="opacity: 0.3"
+                visible="false"></a-plane>
+	    </a-scene>
+    </body>
 </html>
