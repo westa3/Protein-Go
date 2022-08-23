@@ -10,7 +10,6 @@
     arjs="trackingMethod: best; sourceType: webcam;debugUIEnabled: false;"
   >
     <!-- The ring used for Tracking -->
-  <a-ring id="cursor" radius-inner="0.1" radius-outer="0.2" color="teal" position="0 0 -5" rotation="-90 0 0"></a-ring>
     <!-- Define the GLTF model -->
   <a-entity
     gltf-model="separated_colored.glb"
@@ -20,8 +19,10 @@
   </a-entity>
     <!-- Create the Static Camera -->
   <a-camera ar-raycaster raycaster cursor="fuse:false"></a-camera>
+  <script>
   ar-hit-test="target:#some-element"
   webxr="overlayElement:#overlay"
+  </script>
   </a-scene>
   <div id=”overlay”></div>
   <script type="text/javascript">
