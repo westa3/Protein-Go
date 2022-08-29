@@ -12,6 +12,13 @@
     </script>
 </head>
 <body style='margin: 0; overflow: hidden;'>
+    <style>
+	    button {
+	    width: 100px;
+	    height: 35px;
+	    margin: 15px;
+	  }
+    </style>
     <a-scene
         vr-mode-ui="enabled: false"
 		embedded
@@ -19,6 +26,8 @@
         <a-assets timeout="30000">
             <a-asset-item id="capsid" src="separated_colored.glb" response-type="arraybuffer"></a-asset-item>
         </a-assets>
+	    <div class="button" onclick='buttonclick()'></div>
+	
 	<a-camera position="0 1.2 0"></a-camera>
         <a-entity id="full_capsid" position="0 0 -40" scale="0.1 0.1 0.1">
         <a-entity position="0 0 -40" rotation="0 55 0"
@@ -43,5 +52,5 @@
                 ar-shadows="opacity: 0.3"
                 visible="false"></a-plane>
       </a-scene>
- </body>
+  </body>
 </html>
