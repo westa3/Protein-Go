@@ -14,10 +14,10 @@
 		<a-scene vr-mode-ui="enabled: false"
 				embedded 
 			 arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false; trackingMethod: best;'>
+			<a-assets>
+				<a-asset-item id="capsid" src="separated_colored.glb" response-type="arraybuffer"></a-asset-item>
+			</a-assets>
 			<a-anchor hit-testing-enabled='true'>
-				<a-assets>
-				    <a-asset-item id="capsid" src="separated_colored.glb" response-type="arraybuffer"></a-asset-item>
-				</a-assets>
 				<a-entity id="full_capsid" position="0 0 -40" scale="0.1 0.1 0.1">
 				<a-entity position="0 0 -40" rotation="0 55 0"
 					    gltf-model="#capsid"
