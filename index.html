@@ -14,7 +14,6 @@
 		<a-scene vr-mode-ui="enabled: false"
 				embedded 
 			 arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false; trackingMethod: best;'>
-			<a-anchor hit-testing-enabled='true'>
 				<a-assets>
 					<a-asset-item id="capsid" src="separated_colored.glb" response-type="arraybuffer"></a-asset-item>
 				</a-assets>
@@ -24,7 +23,6 @@
 					    animation-mixer
 					    shadow="cast: true; receive: false"></a-entity>
 				</a-entity>
-			</a-anchor>
 			<a-camera-static position="0 1.2 0"></a-camera>
 		</a-scene>
 	</body>
