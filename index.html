@@ -15,39 +15,37 @@
     <button onclick="buttonclick()">Click here</button>
     <script>
 	    function buttoncick() {
-		 <script>
-			<a-scene>
-			 vr-mode-ui="enabled: false"
-				embedded
-			arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
-			<a-assets timeout="30000">
-			    <a-asset-item id="capsid" src="separated_colored.glb" response-type="arraybuffer"></a-asset-item>
-			</a-assets>
-			<a-camera position="0 1.2 0"></a-camera>
-			<a-entity id="full_capsid" position="0 0 -40" scale="0.1 0.1 0.1">
-			<a-entity position="0 0 -40" rotation="0 55 0"
-				    gltf-model="#capsid"
-				    animation-mixer
-				    shadow="cast: true; receive: false"></a-entity>
-			</a-entity>  
-			<a-entity light="type: ambient; intensity: 0.5;"></a-entity>
-			<a-light type="directional"
-				light="castShadow: true;
-					shadowMapHeight: 1024;
-					shadowMapWidth: 1024;
-					shadowCameraLeft: -7;
-					shadowCameraRight: 5;
-					shadowCameraBottom: -5;
-					shadowCameraTop: 5;"
-				id="light"
-				target="full_capsid"
-				position="-5 3 1.5"></a-light>
-			<a-plane height="15" width="15" position="0 0 -3" rotation="-90 0 0"
-				shadow="receive: true"
-				ar-shadows="opacity: 0.3"
-				visible="false"></a-plane> 
-		    	</a-scene>
-		</script>
+		<a-scene>
+		 vr-mode-ui="enabled: false"
+			embedded
+		arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
+		<a-assets timeout="30000">
+		    <a-asset-item id="capsid" src="separated_colored.glb" response-type="arraybuffer"></a-asset-item>
+		</a-assets>
+		<a-camera position="0 1.2 0"></a-camera>
+		<a-entity id="full_capsid" position="0 0 -40" scale="0.1 0.1 0.1">
+		<a-entity position="0 0 -40" rotation="0 55 0"
+			    gltf-model="#capsid"
+			    animation-mixer
+			    shadow="cast: true; receive: false"></a-entity>
+		</a-entity>  
+		<a-entity light="type: ambient; intensity: 0.5;"></a-entity>
+		<a-light type="directional"
+			light="castShadow: true;
+				shadowMapHeight: 1024;
+				shadowMapWidth: 1024;
+				shadowCameraLeft: -7;
+				shadowCameraRight: 5;
+				shadowCameraBottom: -5;
+				shadowCameraTop: 5;"
+			id="light"
+			target="full_capsid"
+			position="-5 3 1.5"></a-light>
+		<a-plane height="15" width="15" position="0 0 -3" rotation="-90 0 0"
+			shadow="receive: true"
+			ar-shadows="opacity: 0.3"
+			visible="false"></a-plane> 
+		</a-scene>
     </script>
   </body>
 </html>
