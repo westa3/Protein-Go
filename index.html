@@ -23,6 +23,12 @@
 	    function buttoncick() {
 		 <script>
 			<a-scene>
+			 vr-mode-ui="enabled: false"
+				embedded
+			arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
+			<a-assets timeout="30000">
+			    <a-asset-item id="capsid" src="separated_colored.glb" response-type="arraybuffer"></a-asset-item>
+			</a-assets>
 			<a-camera position="0 1.2 0"></a-camera>
 			<a-entity id="full_capsid" position="0 0 -40" scale="0.1 0.1 0.1">
 			<a-entity position="0 0 -40" rotation="0 55 0"
@@ -49,14 +55,6 @@
 		    	</a-scene>
 		</script>
     </script>
-    <a-scene
-        vr-mode-ui="enabled: false"
-		embedded
-        arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
-        <a-assets timeout="30000">
-            <a-asset-item id="capsid" src="separated_colored.glb" response-type="arraybuffer"></a-asset-item>
-        </a-assets>
-	    <div class="button" onclick='buttonclick()'></div>
-      </a-scene>
+    <div class="button" onclick='buttonclick()'></div>
   </body>
 </html>
