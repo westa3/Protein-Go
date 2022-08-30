@@ -13,17 +13,16 @@
 	<body style='margin: 0; overflow: hidden;'>
 		<a-scene vr-mode-ui="enabled: false"
 				embedded 
-			 arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false; trackingMethod: best;' ar-hit-test="target:#some-element">
+			 arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; 
+			       displayHeight: 960; debugUIEnabled: false; trackingMethod: best;' 
+			 ar-hit-test="target:#some-element"
+			 webxr="overlayElement:#dom-overlay;">
 				<a-assets>
-					<a-asset-item id="capsid" src="separated_colored.glb" response-type="arraybuffer"></a-asset-item>
+					<a-asset-item id="capsid" src="separated_colored.glb"></a-asset-item>
 				</a-assets>
 				<a-camera-static position="0 1.2 0"></a-camera>
-				<a-entity id="full_capsid" position="0 0 -40" scale="0.1 0.1 0.1">
-				<a-entity position="0 0 -40" rotation="0 55 0"
-					    gltf-model="#capsid"
-					    animation-mixer
-					    shadow="cast: true; receive: false"></a-entity>
-				</a-entity>
+				<a-gltf-model id="moving_capsid" position="0 0 -40" scale="0.1 0.1 0.1" hide-on-enter-ar src="#capsid" animation-mixer
+					    shadow="cast: true; receive: false"></a-gltf-model>
 			<script>
 				sceneEl.addEventListener('enter-vr', function () {
 				  if (this.is('ar-mode')) {
