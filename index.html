@@ -13,7 +13,7 @@
 	<body style='margin: 0; overflow: hidden;'>
 		<a-scene vr-mode-ui="enabled: false"
 				embedded 
-			 arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false; trackingMethod: best;'>
+			 arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false; trackingMethod: best;' ar-hit-test="target:#some-element">
 				<a-assets>
 					<a-asset-item id="capsid" src="separated_colored.glb" response-type="arraybuffer"></a-asset-item>
 				</a-assets>
@@ -24,6 +24,22 @@
 					    animation-mixer
 					    shadow="cast: true; receive: false"></a-entity>
 				</a-entity>
+			<script>
+				sceneEl.addEventListener('enter-vr', function () {
+				  if (this.is('ar-mode')) {
+				    message.textContent = '';
+				    this.addEventListener('ar-hit-test-start', function () {
+				      message.innerHTML = `Scanning environment, finding surface.`
+				    }, { once: true });
+				    this.addEventListener('ar-hit-test-achieved', function () {
+				      message.innerHTML = `Select the location to place the furniture. By tapping on the screen or selecting with your controller.`
+				    }, { once: true });
+				    this.addEventListener('ar-hit-test-select', function () {
+				      message.textContent = 'Object placed!';
+				    }, { once: true });
+				  }
+				});
+			</script>
 		</a-scene>
 	</body>
 </html>
