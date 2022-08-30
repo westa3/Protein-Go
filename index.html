@@ -6,7 +6,6 @@
 	    <title>Protein-Go demo</title>
 	    <script src='https://aframe.io/releases/0.9.2/aframe.min.js'></script>
 	    <script src="https://raw.githack.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.min.js"></script>
-	    <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
 	    <script>
 		THREEx.ArToolkitContext.baseURL = 'https://raw.githack.com/jeromeetienne/ar.js/master/three.js/'
 	    </script>
@@ -15,10 +14,10 @@
 		<a-scene vr-mode-ui="enabled: false"
 				embedded
 			arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
-			<a-camera-static position="0 1.2 0"></a-camera>
 			<a-assets>
 			    <a-asset-item id="capsid" src="separated_colored.glb" response-type="arraybuffer"></a-asset-item>
 			</a-assets>
+			<a-camera-static position="0 1.2 0"></a-camera>
 			<a-entity id="full_capsid" position="0 0 -40" scale="0.1 0.1 0.1">
 			<a-entity position="0 0 -40" rotation="0 55 0"
 				    gltf-model="#capsid"
