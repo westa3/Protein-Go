@@ -11,11 +11,9 @@
 		<script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/cfe5f316/dist/aframe-extras.js"></script>
 	</head>
 	<body style='margin: 0; overflow: hidden;'>
-		<a-anchor>
-			<a-assets>
-				<a-asset-item id="capsid" src="separated_colored.glb"></a-asset-item>
-			</a-assets>
-		</a-anchor>
+		<a-assets>
+			<a-asset-item id="capsid" src="separated_colored.glb"></a-asset-item>
+		</a-assets>
 		<a-scene ar vr-mode-ui="enabled: false"
 				embedded 
 			 arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; 
@@ -24,9 +22,9 @@
 			 webxr="overlayElement:#dom-overlay;">
 			<a-gltf-model id="moving_capsid" position="0 0 -40" scale="0.1 0.1 0.1" hide-on-enter-ar src="#capsid" animation-mixer
 				    shadow="cast: true; receive: false"></a-gltf-model>
-			<a-ring id="cursor" radius-inner="0.1" radius-outer="0.2" color="teal" position="0 -0.8 -5" rotation="-90 0 0"></a-ring>
 		</a-scene>
 		<a-camera ar-raycaster raycaster cursor="fuse:false" position="0 1.2 0"> </a-camera>
+		<a-ring id="cursor" radius-inner="0.1" radius-outer="0.2" color="teal" position="0 -0.8 -5" rotation="-90 0 0"></a-ring>
 		<script type="text/javascript">
 			function onSceneLoaded() {
 			    const raycaster = document.querySelector('[ar-raycaster]');
