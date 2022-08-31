@@ -39,7 +39,7 @@
 			const scene = document.querySelector('a-scene');
 			scene.addEventListener('loaded', onSceneLoaded);
 			
-			const walker = document.querySelector('#walker');
+			const walker = document.querySelector('#moving_capsid');
 			raycaster.addEventListener('click', () => {
 			  walker.setAttribute('position', raycaster.components.cursor.intersection.point);
 			});
