@@ -20,9 +20,11 @@
 			       displayHeight: 960; debugUIEnabled: false; trackingMethod: best;' 
 			 ar-hit-test="target:#some-element"
 			 webxr="overlayElement:#dom-overlay;">
-			<a-gltf-model id="moving_capsid" position="0 0 -40" scale="0.1 0.1 0.1" hide-on-enter-ar src="#capsid" animation-mixer
-				    shadow="cast: true; receive: false"></a-gltf-model>
-			<a-ring id="cursor" radius-inner="0.1" radius-outer="0.2" color="teal" position="0 -0.8 -5" rotation="-90 0 0"></a-ring>
+			<a-anchor>
+				<a-gltf-model id="moving_capsid" position="0 0 -40" scale="0.1 0.1 0.1" hide-on-enter-ar src="#capsid" animation-mixer
+					    shadow="cast: true; receive: false"></a-gltf-model>
+				<a-ring id="cursor" radius-inner="0.1" radius-outer="0.2" color="teal" position="0 -0.8 -5" rotation="-90 0 0"></a-ring>
+			</a-anchor>
 		</a-scene>
 		<a-camera ar-raycaster raycaster cursor="fuse:false" position="0 1.2 0"> </a-camera>
 		<script type="text/javascript">
