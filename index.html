@@ -17,30 +17,12 @@
 			       displayHeight: 960; debugUIEnabled: false; trackingMethod: best;' 
 			 ar-hit-test="target:#some-element"
 			 webxr="overlayElement:#dom-overlay;">
-			<a-anchor>
-				<a-assets>
-					<a-asset-item id="capsid" src="separated_colored.glb"></a-asset-item>
-				</a-assets>
-				<a-gltf-model id="moving_capsid" position="0 0 -40" scale="0.1 0.1 0.1" hide-on-enter-ar src="#capsid" animation-mixer
-					    shadow="cast: true; receive: false"></a-gltf-model>
-			</a-anchor>
-			<a-camera position="0 1.2 0"></a-camera>
+			<a-assets>
+				<a-asset-item id="capsid" src="separated_colored.glb"></a-asset-item>
+			</a-assets>
+			<a-gltf-model id="moving_capsid" position="0 0 -40" scale="0.1 0.1 0.1" hide-on-enter-ar src="#capsid" animation-mixer
+				    shadow="cast: true; receive: false"></a-gltf-model>
+			<a-camera ar-raycaster raycaster cursor="fuse:false" position="0 1.2 0"> </a-camera>
 		</a-scene>
-		<script>
-			sceneEl.addEventListener('enter-vr', function () {
-			  if (this.is('ar-mode')) {
-			    message.textContent = '';
-			    this.addEventListener('ar-hit-test-start', function () {
-			      message.innerHTML = `Scanning environment, finding surface.`
-			    }, { once: true });
-			    this.addEventListener('ar-hit-test-achieved', function () {
-			      message.innerHTML = `Select the location to place the furniture. By tapping on the screen or selecting with your controller.`
-			    }, { once: true });
-			    this.addEventListener('ar-hit-test-select', function () {
-			      message.textContent = 'Object placed!';
-			    }, { once: true });
-			  }
-			});
-		</script>
 	</body>
 </html>
