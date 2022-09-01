@@ -22,41 +22,11 @@
 			 webxr="overlayElement:#dom-overlay;">
 			<a-gltf-model class=ARAnchor id="moving_capsid" position="0 0 -40" scale="0.1 0.1 0.1" rotation="0 45 0" hide-on-enter-ar src="#capsid" animation-mixer
 				    shadow="cast: true; receive: false"></a-gltf-model>
-			<a-camera ar-raycaster raycaster cursor="fuse:false" position="0 1.2 0">
-				<a-ring id="cursor" radius-inner="0.1" radius-outer="0.2" color="teal" position="0 -0.8 -5" rotation="-90 0 0"></a-ring>
+			<a-camera ar-raycaster raycaster position="0 1.2 0">
+				<a-cursor></a-cursor>
 			</a-camera>
 		</a-scene>
 		<script type="text/javascript">
-			class ARPlaneAnchor : ARAnchor
-			public void createSession() {
-			  session = new Session(applicationContext);
-			  Config config = new Config(session);
-			  // Set the Instant Placement mode.
-			  config.setInstantPlacementMode(InstantPlacementMode.LOCAL_Y_UP);
-			  session.configure(config);
-			}
-			private placementIsDone = false;
-
-			public void onDrawFrame(GL10 gl) {
-			  Frame frame = session.update();
-
-			  // Place an object on tap.
-			  if (!placementIsDone && didUserTap()) {
-			    // Use estimated distance from the user's device to the real world, based
-			    // on expected user interaction and behavior.
-			    float approximateDistanceMeters = 2.0f;
-			    // Performs a ray cast given a screen tap position.
-			    List<HitResult> results =
-			      frame.hitTestInstantPlacement(tapX, tapY, approximateDistanceMeters);
-			    if (!results.isEmpty()) {
-			      InstantPlacementPoint point = (InstantPlacementPoint) results.get(0).getTrackable();
-			      // Create an Anchor from the point's pose.
-			      Anchor anchor = point.createAnchor(point.getPose());
-			      placementIsDone = true;
-			      disableInstantPlacement();
-			    }
-			  }
-			}
 		</script>
 	</body>
 </html>
