@@ -18,9 +18,10 @@
 				embedded 
 			 arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; 
 			       displayHeight: 960; debugUIEnabled: false; trackingMethod: best;' 
-			 ar-hit-test="target:#some-element"
-			 webxr="overlayElement:#dom-overlay;">
-			<a-gltf-model id="moving_capsid" position="0 0 -40" text="anchor: center anchor='center' a-plane align:center" scale="0.1 0.1 0.1" rotation="0 45 0" hide-on-enter-ar src="#capsid" animation-mixer
+			 webxr="requiredFeatures: hit-test,local-floor;
+				optionalFeatures: dom-overlay,unbounded;
+				overlayElement: #overlay;">
+			<a-gltf-model id="moving_capsid" position="0 0 -40" scale="0.1 0.1 0.1" rotation="0 45 0" hide-on-enter-ar src="#capsid" animation-mixer
 				    shadow="cast: true; receive: false" scale-on-mouseenter></a-gltf-model>
 			<a-camera ar-raycaster raycaster position="0 1.2 0">
 				<a-cursor></a-cursor>
