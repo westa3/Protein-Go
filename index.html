@@ -24,7 +24,6 @@
 			<a-gltf-model id="moving_capsid" position="0 0 -40" scale="0.1 0.1 0.1" rotation="0 45 0" hide-on-enter-ar src="#capsid" animation-mixer
 				    shadow="cast: true; receive: false" scale-on-mouseenter></a-gltf-model>
 			<a-camera ar-raycaster raycaster position="0 1.2 0">
-				<a-cursor></a-cursor>
 			</a-camera>
 		</a-scene>
 		<script>
@@ -41,6 +40,106 @@
 		      });
 		    }
 		  });
+		</script>
+		<script>
+			const session = await navigator.xr.requestSession("immersive-ar", {
+			  requiredFeatures: ["plane-detection"]
+			});
+			enum XRPlaneOrientation {
+			    "horizontal",
+			    "vertical"
+			};
+			// `planes` will track all detected planes that the application is aware of,
+			// and at what timestamp they were updated. Initially, this is an empty map.
+			const planes = Map();
+
+			function onXRFrame(timestamp, frame) {
+			  const detectedPlanes = frame.detectedPlanes;
+
+			  // First, let’s check if any of the planes we knew about is no longer tracked:
+			  for (const [plane, timestamp] of planes) {
+			    if(!detectedPlanes.has(plane)) {
+			      // Handle removed plane - `plane` was present in previous frame,
+			      // but is no longer tracked.
+
+			      // We know the plane no longer exists, remove it from the map:
+			      planes.delete(plane);
+			    }
+			  }
+
+			  // Then, let’s handle all the planes that are still tracked.
+			  // This consists both of tracked planes that we have previously seen (may have
+			  // been updated), and new planes.
+			  detectedPlanes.forEach(plane => {
+			    if (planes.has(plane)) {
+			      // Handle previously-seen plane:
+
+			      if(plane.lastChangedTime > planes.get(plane)) {
+				// Handle previously seen plane that was updated.
+				// It means that one of the plane’s properties is different than
+				// it used to be - most likely, the polygon has changed.
+
+				... // Render / prepare the plane for rendering, etc.
+
+				// Update the time when we have updated the plane:
+				planes.set(plane, plane.lastChangedTime);
+			      } else {
+				// Handle previously seen plane that was not updated in current frame.
+				// Note that plane’s pose relative to some other space MAY have changed.
+			      }
+			    } else {
+			      // Handle new plane.
+
+			      // Set the time when we have updated the plane:
+			      planes.set(plane, plane.lastChangedTime);
+			    }
+
+			    // Irrespective of whether the plane was previously seen or not,
+			    // & updated or not, its pose MAY have changed:
+			    const planePose = frame.getPose(plane.planeSpace, xrReferenceSpace);
+			  });
+
+			  frame.session.requestAnimationFrame(onXRFrame);
+			}
+			const xr = navigator.xr;
+			const immersiveOK = await navigator.xr.isSessionSupported("immersive-ar");
+			if (immersiveOK) {
+			  // Create and use an immersive VR session
+			} else {
+			  // Create an inline session instead, or tell the user about the
+			  // incompatibility if inline is required
+			}
+			xr.requestSession("immersive-ar").then((session) => {
+			  xrSession = session;
+			  async function runSession(session) {
+			  session.addEventListener("end", onSessionEnd);
+
+			  const canvas = document.querySelector("canvas");
+			  const gl = canvas.getContext("webgl", { xrCompatible: true });
+
+			  // Set up WebGL data and such
+
+			  const worldData = loadGLPrograms(session, "worlddata.xml");
+			  if (!worldData) {
+			    return null;
+			  }
+
+			  // Finish configuring WebGL
+
+			  worldData.session.updateRenderState({
+			    baseLayer: new XRWebGLLayer(worldData.session, gl)
+			  });
+
+			  // Start rendering the scene
+
+			  referenceSpace = await worldData.session.requestReferenceSpace("unbounded");
+			  worldData.referenceSpace = referenceSpace.getOffsetReferenceSpace(
+				new XRRigidTransform(worldData.playerSpawnPosition, worldData.playerSpawnOrientation));
+			  worldData.animationFrameRequestID = worldData.session.requestAnimationFrame(onDrawFrame);
+
+			  return worldData;
+			}
+			});
 		</script>
 	</body>
 </html>
