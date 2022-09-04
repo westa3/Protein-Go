@@ -11,15 +11,14 @@
 		<script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/cfe5f316/dist/aframe-extras.js"></script>
 	</head>
 	<body style='margin: 0; overflow: hidden;'>
-		<a-scene ar raycaster-move="target:#intersection"
-			 vr-mode-ui="enabled: false"
+		<a-scene ar vr-mode-ui="enabled: false"
 				embedded 
 			 arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; 
 			       displayHeight: 960; debugUIEnabled: false; trackingMethod: best;' 
 			 webxr="requiredFeatures: hit-test,local-floor;
 				optionalFeatures: dom-overlay,unbounded;
 				overlayElement: #overlay;">
-			<a-camera user-height="0" cursor="fuse:false" ar-raycaster raycaster="objects:none"></a-camera>
+			<a-camera user-height="0" cursor="fuse:false"></a-camera>
 			<a-gltf-model id=capsid src="separated_colored.glb" scale="0.1 0.1 0.1" position="0 0 -40" rotation="0 -90 0" shadow="cast: true"></a-gltf-model>
 			<a-cursor id="intersection" visible="true" radius="0.02" color="red"></a-cursor>
 		</a-scene>
