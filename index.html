@@ -17,9 +17,10 @@
 			       displayHeight: 960; debugUIEnabled: false; trackingMethod: best;' 
 			 webxr="requiredFeatures: hit-test,local-floor;
 				optionalFeatures: dom-overlay,unbounded;
-				overlayElement: #overlay;">
+				overlayElement: #overlay;"
+			 ARCoachingOverlayView>
 			<a-camera user-height="0"></a-camera>
-			<a-gltf-model id="virtualObject" src="separated_colored.glb" scale="0.1 0.1 0.1" position="0 0 -40" rotation="0 -90 0" shadow="cast: true"></a-gltf-model>
+			<a-gltf-model id="virtualObject" src="separated_colored.glb" resizable="true" scale="0.1 0.1 0.1" position="0 0 -40" rotation="0 -90 0" shadow="cast: true"></a-gltf-model>
 		</a-scene>
 		<script>
 			class ARCoachingOverlayView : UIView
