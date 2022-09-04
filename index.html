@@ -11,59 +11,56 @@
 		<script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/cfe5f316/dist/aframe-extras.js"></script>
 	</head>
 	<body style='margin: 0; overflow: hidden;'>
-		<a-assets>
-			<a-asset-item id="capsid" src="separated_colored.glb"></a-asset-item>
-		</a-assets>
-		<a-scene id="immersive-ar"
-			 vr-mode-ui="enabled: false"
-				embedded  
-			 webxr="requiredFeatures: hit-test,local-floor;
-				optionalFeatures: dom-overlay,unbounded;
-				overlayElement: #overlay;">
-			<a-gltf-model id="moving_capsid" position="0 0 -40" scale="0.1 0.1 0.1" rotation="0 45 0" hide-on-enter-ar src="#capsid" animation-mixer
-				    shadow="cast: true; receive: false" scale-on-mouseenter></a-gltf-model>
-			<a-camera position="0 1.2 0">
+		<a-scene ar>
+			<a-camera ar-raycaster raycaster cursor="fuse:false"></a-camera>
+			<a-assets>
+				<a-asset-item id="capsid" src="separated_colored.glb"></a-asset-item>
+			</a-assets>
+			<a-entity id="moving_capsid">
+				<a-entity gltf-model="#capsid" scale="0.15 0.15 0.15" rotation="0 -90 0" animation-mixer
+                  		shadow="cast: true"></a-entity>
+				<a-plane width="0.5" height="0.5" position="0 0 0" rotation="-90 0 0" 
+                		color="white" shadow="receive: true" shadow-material></a-plane>
+			</a-entity>
+			<a-ring id="cursor" color="teal" radius-inner="0.02" radius-outer="0.03" position="0 -3 -3" rotation="-90 0 0"></a-ring>
 			</a-camera>
 		</a-scene>
-		<script>
-			const immersiveOK = await navigator.xr.isSessionSupported("immersive-ar");
-			if (immersiveOK) {
-			  // Create and use an immersive VR session
-			} else {
-			  // Create an inline session instead, or tell the user about the
-			  // incompatibility if inline is required
-			}
-			xr.requestSession("immersive-ar").then((session) => {
-			  xrSession = session;
-			  async function runSession(session) {
-			  session.addEventListener("end", onSessionEnd);
-
-			  const canvas = document.querySelector("canvas");
-			  const gl = canvas.getContext("webgl", { xrCompatible: true });
-
-			  // Set up WebGL data and such
-
-			  const worldData = loadGLPrograms(session, "worlddata.xml");
-			  if (!worldData) {
-			    return null;
-			  }
-
-			  // Finish configuring WebGL
-
-			  worldData.session.updateRenderState({
-			    baseLayer: new XRWebGLLayer(worldData.session, gl)
-			  });
-
-			  // Start rendering the scene
-
-			  referenceSpace = await worldData.session.requestReferenceSpace("unbounded");
-			  worldData.referenceSpace = referenceSpace.getOffsetReferenceSpace(
-				new XRRigidTransform(worldData.playerSpawnPosition, worldData.playerSpawnOrientation));
-			  worldData.animationFrameRequestID = worldData.session.requestAnimationFrame(onDrawFrame);
-
-			  return worldData;
-			}
+		<script type="text/javascript">
+		      function onSceneLoaded() {
+			const raycaster = document.querySelector('[ar-raycaster]');
+			const cursor = document.querySelector('#cursor');
+			raycaster.addEventListener('raycaster-intersection', (event) => {
+			  cursor.setAttribute('position', event.detail.intersections[0].point);
 			});
+
+			const walker = document.querySelector('#moving_capsid');
+			const { stringify } = AFRAME.utils.coordinates;
+
+			let firstTime = true;
+			raycaster.addEventListener('click', () => {
+			  const target = raycaster.components.cursor.intersection.point;
+
+			  if (firstTime) {
+			    walker.setAttribute('position', target);
+			    firstTime = false;
+			  } else {
+			    const currentPosition = walker.object3D.position;
+			    const distance = currentPosition.distanceTo(target);
+
+			    walker.object3D.lookAt(target);
+
+			    const animation = document.createElement('a-animation');
+			    animation.setAttribute('attribute', 'position');
+			    animation.setAttribute('to', stringify(target));
+			    animation.setAttribute('dur', distance * 7000);
+			    animation.setAttribute('easing', 'linear');
+			    walker.appendChild(animation);
+			  }
+			});
+		      }
+
+		      const scene = document.querySelector('a-scene');
+		      scene.addEventListener('loaded', onSceneLoaded);
 		</script>
 	</body>
 </html>
