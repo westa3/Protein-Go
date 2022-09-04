@@ -41,12 +41,7 @@
 		</script>
 	</head>
 	<body style='margin: 0; overflow: hidden;'>
-		<a-scene ar raycaster-move="target:#intersection"
-			 vr-mode-ui="enabled: false"
-				embedded  
-			 webxr="requiredFeatures: hit-test,local-floor;
-				optionalFeatures: dom-overlay,unbounded;
-				overlayElement: #overlay;">
+		<a-scene ar raycaster-move="target:#intersection">
 			<a-camera user-height="0" cursor="fuse:false" ar-raycaster raycaster="objects:none"></a-camera>
 			<a-gltf-model id=#capsid src="separated_colored.glb" scale="0.1 0.1 0.1" position="0 0 -40" rotation="0 -90 0" shadow="cast: true"></a-gltf-model>
 			<a-sphere id="intersection" visible="false" radius="0.02" color="red"></a-sphere>
@@ -100,6 +95,7 @@
 					    capsid.object3D.lookAt(targetPosition);
 					}
 				}
+				scene.addEventListener('loaded', onceSceneLoaded);
 		</script>
 	</body>
 </html>
