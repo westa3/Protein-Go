@@ -44,7 +44,7 @@
 		<a-scene ar raycaster-move="target:#intersection">
 			<a-camera user-height="0" cursor="fuse:false" ar-raycaster raycaster="objects:none"></a-camera>
 			<a-gltf-model id=#capsid src="separated_colored.glb" scale="0.1 0.1 0.1" position="0 0 -40" rotation="0 -90 0" shadow="cast: true"></a-gltf-model>
-			<a-sphere id="intersection" visible="false" radius="0.02" color="red"></a-sphere>
+			<a-sphere id="intersection" visible="true" radius="0.02" color="red"></a-sphere>
 		</a-scene>
 		<script>
 			let scene = document.querySelector('a-scene');
