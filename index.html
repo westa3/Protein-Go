@@ -1,232 +1,155 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebAR Animation Experiment</title>
-    <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@e47f441/dist/aframe-master.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.0/dist/aframe-extras.min.js"></script>
-    <script src="https://ghcdn.rawgit.org/chenzlabs/aframe-ar/8a7ee3b/dist/aframe-ar.min.js"></script>
-    <script>
-    
-    // AFRAME no longer sends intersection event every time intersection changes position;
-    // this component is modified from docs to move a different entity than the one hit.
-    AFRAME.registerComponent('raycaster-move', {
-        schema: {
-            target: {type: 'selector'}
-        },
-        init: function () {
-            // Use events to figure out what raycaster is listening so we don't have to
-            // hardcode the raycaster.
-            this.el.addEventListener('raycaster-intersected', evt => {
-                this.raycaster = evt.detail.el;
-            });
-            this.el.addEventListener('raycaster-intersected-cleared', evt => {
-                this.raycaster = null;
-            });
-        },
-        update: function (oldData) {
-            //
-        },
-        tick: function () {
-            if (!this.raycaster) { return; }  // Not intersecting.
-
-            let intersection = this.raycaster.components.raycaster.getIntersection(this.el);
-            if (!intersection) { return; }
-            //console.log(intersection.point);
-            this.data.target.setAttribute("position", intersection.point);
-        }
-    });
-    
-    </script>    
-
-    <script>
-        AFRAME.registerComponent('shadow-material', {
-            init: function () {
-                this.material = this.el.getOrCreateObject3D('mesh').material = new THREE.ShadowMaterial();
-                this.material.opacity = 0.3;
-            }
-        });
-    </script>
-    <!-- Prevent touch causing flicker on iOS. -->
-    <style> * { -webkit-tap-highlight-color: rgba(0,0,0,0); } </style>        
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>GeoAR.js demo</title>
+    <script src='https://cdn.jsdelivr.net/gh/aframevr/aframe@1c2407b26c61958baa93967b5412487cd94b290b/dist/aframe-master.min.js'></script>
+    <script src='../../build/aframe-ar.min.js'></script>
 </head>
 
-<body>
-    <a-scene ar raycaster-move="target:#intersection">
-        <!-- Specify raycaster="objects:none" to avoid intersections with A-Frame entities like the fox. -->
-        <a-camera user-height="0" cursor="fuse:false" ar-raycaster raycaster="objects:none"></a-camera>
-        <a-entity id="walker" position="0 0 -5" visible="false">
-            <a-entity gltf-model="models/fox.glb" scale="0.5 0.5 0.5" id="fox" animation-mixer="clip:Fox_Idle" shadow="cast: true">
-            </a-entity>
-            <a-plane width="0.4" height="0.4" position="0 0 0" rotation="-90 0 0" color="white" shadow="receive: true" shadow-material></a-plane>
-        </a-entity>
-        <a-entity id="walker2" position="0 0 -5" visible="false">
-            <a-entity gltf-model="models/dino.glb" id="dino"  scale="0.5 0.5 0.5" animation-mixer="clip:Idle" shadow="cast: true">
-            </a-entity>
-            <a-plane width="0.9" height="0.9" position="0 0 0" rotation="-90 0 0" color="white" shadow="receive: true" shadow-material></a-plane>
-        </a-entity>
-        <a-sphere id="intersection" visible="false" radius="0.02" color="red"></a-sphere>
-    </a-scene>
+<link rel="stylesheet" href="../../src/location-based/stylesheets/index.css">
+<script>
+    window.onload = () => {
+        let method = 'dynamic';
 
-    <script>
+        // if you want to statically add places, de-comment following line
+        method = 'static';
+
+        if (method === 'static') {
+            let places = staticLoadPlaces();
+            renderPlaces(places);
+        }
+
+        if (method !== 'static') {
+
+            // first get current user location
+            return navigator.geolocation.getCurrentPosition(function (position) {
+
+                // than use it to load from remote APIs some places nearby
+                dynamicLoadPlaces(position.coords)
+                    .then((places) => {
+                        renderPlaces(places);
+                    })
+            },
+                (err) => console.error('Error in retrieving position', err),
+                {
+                    enableHighAccuracy: true,
+                    maximumAge: 0,
+                    timeout: 27000,
+                }
+            );
+        }
+    };
+
+    function staticLoadPlaces() {
+        return [
+            {
+                name: "Your place name",
+                location: {
+                    lat: 0, // add here latitude if using static data
+                    lng: 0, // add here longitude if using static data
+                }
+            },
+            {
+                name: 'Another place name',
+                location: {
+                    lat: 0,
+                    lng: 0,
+                }
+            }
+        ];
+    }
+
+    // getting places from REST APIs
+    function dynamicLoadPlaces(position) {
+        let params = {
+            radius: 300,    // search places not farther than this value (in meters)
+            clientId: 'HZIJGI4COHQ4AI45QXKCDFJWFJ1SFHYDFCCWKPIJDWHLVQVZ',   // add your credentials here
+            clientSecret: '',   // add your credentials here
+            version: '20300101',    // foursquare versioning, required but unuseful for this demo
+        };
+
+        // CORS Proxy to avoid CORS problems
+        let corsProxy = 'https://cors-anywhere.herokuapp.com/';
+
+        // Foursquare API
+        let endpoint = `${corsProxy}https://api.foursquare.com/v2/venues/search?intent=checkin
+            &ll=${position.latitude},${position.longitude}
+            &radius=${params.radius}
+            &client_id=${params.clientId}
+            &client_secret=${params.clientSecret}
+            &limit=15
+            &v=${params.version}`;
+        return fetch(endpoint)
+            .then((res) => {
+                return res.json()
+                    .then((resp) => {
+                        return resp.response.venues;
+                    })
+            })
+            .catch((err) => {
+                console.error('Error with places API', err);
+            })
+    };
+
+    function renderPlaces(places) {
         let scene = document.querySelector('a-scene');
-        let walker;
-        let fox;
-        let idleAnimation;
-        let sitting = false;
 
-        function activateFox() {
-            walker = document.querySelector('#walker');
-            fox = document.querySelector('#fox');
-            idleAnimation = 'Fox_Idle';
-            walkAnimation = 'Fox_Run';
-        }
+        places.forEach((place) => {
+            const latitude = place.location.lat;
+            const longitude = place.location.lng;
 
-        function activateDino() {
-            walker = document.querySelector('#walker2');
-            fox = document.querySelector('#dino');
-            idleAnimation = 'Idle';
-            walkAnimation = 'Walk';
-        }
+            // add place icon
+            const icon = document.createElement('a-image');
+            icon.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude}`);
+            icon.setAttribute('name', place.name);
+            icon.setAttribute('src', '../assets/map-marker.png');
 
-        function playAnimation(animation) {
-            if (fox === document.querySelector('#dino')) {
-                sitting = animation.startsWith('Sit') && animation !== 'Sit_Up';
-                fox.setAttribute('animation-mixer', { clip: animation });
-                const listener = () => {
-                    fox.setAttribute('animation-mixer', { clip: sitting ? 'Sit_Idle' : idleAnimation });
-                    fox.removeEventListener('animation-loop', listener);
-                };
-                fox.addEventListener('animation-loop', listener);
-            }
-        }
+            // for debug purposes, just show in a bigger scale, otherwise I have to personally go on places...
+            icon.setAttribute('scale', '20, 20');
 
-        function onceSceneLoaded() {
-            let raycaster = document.querySelector('[ar-raycaster]');
-            let marker = document.querySelector('#intersection');
-            activateFox();
+            icon.addEventListener('loaded', () => window.dispatchEvent(new CustomEvent('gps-entity-place-loaded')));
 
-            raycaster.addEventListener('raycaster-intersection', function (event) {
-                const intersection = event.detail.intersections[0]; //.find(i => i.object.type === 'Scene');
-                if (intersection) {
-                    marker.setAttribute('position', intersection.point);
-                    marker.setAttribute('visible', true);
-                    marker.setAttribute('color', 'green');
+            const clickListener = function (ev) {
+                ev.stopPropagation();
+                ev.preventDefault();
+
+                const name = ev.target.getAttribute('name');
+
+                const el = ev.detail.intersection && ev.detail.intersection.object.el;
+
+                if (el && el === ev.target) {
+                    const label = document.createElement('span');
+                    const container = document.createElement('div');
+                    container.setAttribute('id', 'place-label');
+                    label.innerText = name;
+                    container.appendChild(label);
+                    document.body.appendChild(container);
+
+                    setTimeout(() => {
+                        container.parentElement.removeChild(container);
+                    }, 1500);
                 }
-            });
+            };
 
-            raycaster.addEventListener('raycaster-intersection-cleared', function (event) {
-                marker.setAttribute('color', 'red');
-            });
+            icon.addEventListener('click', clickListener);
 
-            const { stringify } = AFRAME.utils.coordinates;
+            scene.appendChild(icon);
+        });
+    }
+</script>
 
-            let lastEvent = null;
-            raycaster.addEventListener('click', function () {
-                const currentEvent = new Date().getTime();
-                if (lastEvent && (currentEvent - lastEvent < 1000)) {
-                    return;
-                }
-                lastEvent = currentEvent;
+<body style='margin: 0; overflow: hidden;'>
+    <a-scene
+        cursor='rayOrigin: mouse; fuse: true; fuseTimeout: 0;'
+        raycaster="objects: [gps-entity-place];"
+        vr-mode-ui="enabled: false"
+		embedded
+		arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
 
-                const targetPosition = raycaster.components.cursor
-                  // this is broken in current A-Frame 1.0.x --> .intersection.point;
-                  .intersectedEventDetail.intersection.point;
-                if (!walker.getAttribute('visible')) {
-                    walker.setAttribute('visible', true);
-                    walker.setAttribute('position', stringify(targetPosition));
-                } else {
-                    const currentPosition = walker.object3D.position;
-                    const distance = currentPosition.distanceTo(targetPosition);
-                    // face the right way
-                    walker.object3D.lookAt(targetPosition);
-                    // make it look like it's walking
-                    fox.setAttribute('animation-mixer', { clip: walkAnimation });
-                    // only add completion listener once
-                    if (!walker.getAttribute('animation')) {
-                      // once it's there,
-                      walker.addEventListener('animationcomplete', () => { 
-                        // make it look like it's idle                    
-                        fox.setAttribute('animation-mixer', { clip: idleAnimation });
-                      });
-                    }
-                    // set the animation in new A-Frame 1.0.x style
-                    walker.setAttribute('animation', {
-                      property: 'position',
-                      to: stringify(targetPosition), // just targetPosition doesn't work!?
-                      dur: distance * 3000,
-                      easing: 'linear'                      
-                    });
-                    // toggle marker color to show we're doing it 
-                    marker.setAttribute('color', 'blue');
-                    setTimeout(() => marker.setAttribute('color', 'green'), 350);
-                }
-            });
-        }
-
-        function tryAgain() {
-            recognition.stop();
-            setTimeout(() => { recognition.start(); });          
-        }
-      
-        function onCommand(results) {
-            tryAgain();
-            for (const result of results) {
-                for (const { transcript } of Array.from(result)) {
-                    if (transcript.toLowerCase().includes('dino') || transcript.toLowerCase().includes('dina')) {
-                        activateDino();
-                    }
-                    if (transcript.toLowerCase().includes('fox')) {
-                        activateFox();
-                    }
-                    const animations = sitting ? {
-                        'Stand up': 'Sit_Up',
-                        'Eat': 'Sit_Eat',
-                        'Chew': 'Sit_Chew',
-                        'Look left': 'Sit_Head_Left',
-                        'Look right': 'Sit_Head_Right', 
-                    } : {
-                        'Look left': 'Head_Left',
-                        'Look right': 'Head_Right', 
-                        'Chew': 'Chew',
-                        'Drink': 'Drink',
-                        'Jump': 'Jump',
-                        'Head': 'Attack1',
-                        'Attack': 'Attack2',
-                        'Sit Down': 'Sit',
-                        'Eat': 'Eat2',
-                        'Run': 'Run',
-                    };
-                    for (const animationKey of Object.keys(animations)) {
-                        if (transcript.toLowerCase().includes(animationKey.toLowerCase())) {
-                            playAnimation(animations[animationKey]);
-                            return;
-                        }
-                    }
-                    if (transcript.toLowerCase().includes('random')) {
-                        const animationKey = Object.keys(animations)[Math.floor(Math.random() * Object.keys(animations).length)];
-                        playAnimation(animations[animationKey]);
-                        return;
-                    }
-                }
-            }
-        }
-
-        try {
-            
-        recognition = new webkitSpeechRecognition();
-        recognition.continuous = true;
-        recognition.maxAlternatives = 5;
-        recognition.onresult = ({results}) => onCommand(results);
-        recognition.onerror = () => setTimeout(tryAgain, 500);
-        recognition.start();
-
-        } catch (err) { console.error(err.message); }
-
-        scene.addEventListener('loaded', onceSceneLoaded);
-    </script>
+        <a-camera gps-camera rotation-reader>
+		</a-camera>
+	</a-scene>
 </body>
-
 </html>
