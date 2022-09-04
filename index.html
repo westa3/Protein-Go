@@ -22,24 +22,9 @@
 				overlayElement: #overlay;">
 			<a-gltf-model id="moving_capsid" position="0 0 -40" scale="0.1 0.1 0.1" rotation="0 45 0" hide-on-enter-ar src="#capsid" animation-mixer
 				    shadow="cast: true; receive: false" scale-on-mouseenter></a-gltf-model>
-			<a-camera ar-raycaster raycaster position="0 1.2 0">
+			<a-camera position="0 1.2 0">
 			</a-camera>
 		</a-scene>
-		<script>
-		  AFRAME.registerComponent('scale-on-mouseenter', {
-		    schema: {
-		      to: {default: '0.1 0.1 0.1', type: 'vec3'}
-		    },
-
-		    init: function () {
-		      var data = this.data;
-		      var el = this.el;
-		      this.el.addEventListener('mouseenter', function () {
-			el.object3D.scale.copy(data.to);
-		      });
-		    }
-		  });
-		</script>
 		<script>
 			const immersiveOK = await navigator.xr.isSessionSupported("immersive-ar");
 			if (immersiveOK) {
