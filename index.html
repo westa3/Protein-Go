@@ -4,7 +4,9 @@
 		<meta charset='utf-8'>
 		<meta http-equiv='X-UA-Compatible' content='IE=edge'>
 		<title>Protein-Go demo</title>
-		<script src='https://aframe.io/releases/0.9.2/aframe.min.js'></script>
+		<script>
+			AFRAME = 'https://aframe.io/releases/0.9.2/aframe.min.js'
+		</script>
 		<script src="https://cdn.rawgit.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.js"></script>
 	   	<script src="https://google-ar.github.io/three.ar.js/dist/three.ar.js"></script>
 		<script src="https://rawgit.com/chenzlabs/aframe-ar/827e9db/dist/aframe-ar.min.js"></script>
@@ -19,33 +21,33 @@
 				document.addEventListener('mousedown',this.OnDocumentMouseDown.bind(this));
 				document.addEventListener('mouseup',this.OnDocumentMouseUp.bind(this));
 				document.addEventListener('mousemove',this.OnDocumentMouseMove.bind(this));
-			},
-			OnDocumentMouseDown : function(event){
-				this.ifMouseDown = true;
-				this.x_cord = event.clientX;
-				this.y_cord = event.clientY;
-			},
-			OnDocumentMouseUp : function(){
-				this.ifMouseDown = false;
-			},
-			OnDocumentMouseMove : function(event)
-			{
-			if(this.ifMouseDown)
-			{
-			  var temp_x = event.clientX-this.x_cord;
-			  var temp_y = event.clientY-this.y_cord;
-			  if(Math.abs(temp_y)<Math.abs(temp_x))
-			  {
-			  	this.el.object3D.rotateY(temp_x*this.data.speed/1000);
-			  }
-			  else
-			  {
-			  	this.el.object3D.rotateX(temp_y*this.data.speed/1000);
-			  }
-				this.x_cord = event.clientX;
-				this.y_cord = event.clientY;
-			}
-			}
+				},
+				OnDocumentMouseDown : function(event){
+					this.ifMouseDown = true;
+					this.x_cord = event.clientX;
+					this.y_cord = event.clientY;
+				},
+				OnDocumentMouseUp : function(){
+					this.ifMouseDown = false;
+				},
+				OnDocumentMouseMove : function(event)
+				{
+					if(this.ifMouseDown)
+					{
+					  var temp_x = event.clientX-this.x_cord;
+					  var temp_y = event.clientY-this.y_cord;
+					  if(Math.abs(temp_y)<Math.abs(temp_x))
+					  {
+						this.el.object3D.rotateY(temp_x*this.data.speed/1000);
+					  }
+					  else
+					  {
+						this.el.object3D.rotateX(temp_y*this.data.speed/1000);
+					  }
+						this.x_cord = event.clientX;
+						this.y_cord = event.clientY;
+					}
+				}
 			});
   		</script>
 	</head>
