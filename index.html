@@ -23,56 +23,5 @@
 			<a-gltf-model id=capsid src="separated_colored.glb" scale="0.1 0.1 0.1" position="0 0 -40" rotation="0 -90 0" shadow="cast: true"></a-gltf-model>
 			<a-cursor id="intersection" visible="true" radius="0.02" color="red"></a-cursor>
 		</a-scene>
-		<script>
-			let scene = document.querySelector('a-scene');
-        		let capsid;
-			
-			function activateFox() {
-				capsid = document.querySelector('#capsid');
-			}
-			
-			 function onceSceneLoaded() {
-				let raycaster = document.querySelector('[ar-raycaster]');
-				let marker = document.querySelector('#intersection');
-				activateFox();
-
-				raycaster.addEventListener('raycaster-intersection', function (event) {
-				const intersection = event.detail.intersections[0]; //.find(i => i.object.type === 'Scene');
-				if (intersection) {
-				    marker.setAttribute('position', intersection.point);
-				    marker.setAttribute('visible', true);
-				    marker.setAttribute('color', 'green');
-				}
-				});
-
-				raycaster.addEventListener('raycaster-intersection-cleared', function (event) {
-				marker.setAttribute('color', 'red');
-				});
-
-				const { stringify } = AFRAME.utils.coordinates;
-
-				let lastEvent = null;
-				raycaster.addEventListener('click', function () {
-					const currentEvent = new Date().getTime();
-					if (lastEvent && (currentEvent - lastEvent < 1000)) {
-					    return;
-					}
-					lastEvent = currentEvent;
-
-					const targetPosition = raycaster.components.cursor
-					  // this is broken in current A-Frame 1.0.x --> .intersection.point;
-					  .intersectedEventDetail.intersection.point;
-					if (!capsid.getAttribute('visible')) {
-					    capsid.setAttribute('visible', true);
-					    capsid.setAttribute('position', stringify(targetPosition));
-					} else {
-					    const currentPosition = capsid.object3D.position;
-					    const distance = currentPosition.distanceTo(targetPosition);
-					    // face the right way
-					    capsid.object3D.lookAt(targetPosition);
-					}
-				}
-				scene.addEventListener('loaded', onceSceneLoaded);
-		</script>
 	</body>
 </html>
