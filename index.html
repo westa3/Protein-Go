@@ -10,21 +10,18 @@
 		<script src="https://rawgit.com/chenzlabs/aframe-ar/827e9db/dist/aframe-ar.min.js"></script>
 		<script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/cfe5f316/dist/aframe-extras.js"></script>
 	</head>
-	<body style='margin: 0; overflow: hidden;'>
-		<a-assets>
-			<a-asset-item id="capsid" src="separated_colored.glb"></a-asset-item>
-		</a-assets>
+	<body>
 		<a-scene ar>
+			<a-camera ar-raycaster raycaster cursor="fuse:false"></a-camera>
+			<a-assets>
+				<a-asset-item id="capsid" src="separated_colored.glb"></a-asset-item>
+			</a-assets>
 			<a-entity id="moving_capsid">
-				<a-entity gltf-model="#capsid" scale="0.1 0.1 0.1" rotation="0 -90 0" animation-mixer
-                  		shadow="cast: true">
-				</a-entity>
-				<a-plane width="0.5" height="0.5" position="0 0 0" rotation="-90 0 0" 
-                		color="white" shadow="receive: true" shadow-material></a-plane>
+				<a-entity gltf-model="#capsid" scale="0.1 0.1 0.1" rotation="0 -90 0" animation-mixer shadow="cast: true"></a-entity>
+				<a-plane width="0.5" height="0.5" position="0 0 0" rotation="-90 0 0" color="white" shadow="receive: true" shadow-material></a-plane>
 			</a-entity>
 			<a-ring id="cursor" color="teal" radius-inner="0.02" radius-outer="0.03" position="0 -3 -3" rotation="-90 0 0"></a-ring>
 		</a-scene>
-		<a-camera ar-raycaster raycaster cursor="fuse:false" position="0 1.25 0"></a-camera>
 		<script type="text/javascript">
 		      function onSceneLoaded() {
 			const raycaster = document.querySelector('[ar-raycaster]');
