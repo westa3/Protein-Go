@@ -9,6 +9,45 @@
 	   	<script src="https://google-ar.github.io/three.ar.js/dist/three.ar.js"></script>
 		<script src="https://rawgit.com/chenzlabs/aframe-ar/827e9db/dist/aframe-ar.min.js"></script>
 		<script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/cfe5f316/dist/aframe-extras.js"></script>
+		<script type="text/javascript">
+			AFRAME.registerComponent('drag-rotate-component',{
+				schema : { speed : {default:1}},
+				init : function(){
+				this.ifMouseDown = false;
+				this.x_cord = 0;
+				this.y_cord = 0;
+				document.addEventListener('mousedown',this.OnDocumentMouseDown.bind(this));
+				document.addEventListener('mouseup',this.OnDocumentMouseUp.bind(this));
+				document.addEventListener('mousemove',this.OnDocumentMouseMove.bind(this));
+			},
+			OnDocumentMouseDown : function(event){
+				this.ifMouseDown = true;
+				this.x_cord = event.clientX;
+				this.y_cord = event.clientY;
+			},
+			OnDocumentMouseUp : function(){
+				this.ifMouseDown = false;
+			},
+			OnDocumentMouseMove : function(event)
+			{
+			if(this.ifMouseDown)
+			{
+			  var temp_x = event.clientX-this.x_cord;
+			  var temp_y = event.clientY-this.y_cord;
+			  if(Math.abs(temp_y)<Math.abs(temp_x))
+			  {
+			  	this.el.object3D.rotateY(temp_x*this.data.speed/1000);
+			  }
+			  else
+			  {
+			  	this.el.object3D.rotateX(temp_y*this.data.speed/1000);
+			  }
+				this.x_cord = event.clientX;
+				this.y_cord = event.clientY;
+			}
+			}
+			});
+  		</script>
 	</head>
 	<body style='margin: 0; overflow: hidden;'>
 		<a-scene ar vr-mode-ui="enabled: false"
@@ -18,7 +57,7 @@
 			 webxr="requiredFeatures: hit-test,local-floor;
 				optionalFeatures: dom-overlay,unbounded;
 				overlayElement: #overlay;">
-			<a-camera user-height="0" drag-rotate-component></a-camera>
+			<a-camera user-height="0"></a-camera>
 			<a-gltf-model id="virtualObject" src="separated_colored.glb" drag-rotate-component scale="0.1 0.1 0.1" position="0 0 -40" rotation="0 -90 0" shadow="cast: true"></a-gltf-model>
 		</a-scene>
 	</body>
