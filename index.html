@@ -9,16 +9,97 @@
 	   	<script src="https://google-ar.github.io/three.ar.js/dist/three.ar.js"></script>
 		<script src="https://rawgit.com/chenzlabs/aframe-ar/827e9db/dist/aframe-ar.min.js"></script>
 		<script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/cfe5f316/dist/aframe-extras.js"></script>
+		<script>
+			// AFRAME no longer sends intersection event every time intersection changes position;
+			// this component is modified from docs to move a different entity than the one hit.
+			AFRAME.registerComponent('raycaster-move', {
+			schema: {
+			    target: {type: 'selector'}
+			},
+			init: function () {
+			    // Use events to figure out what raycaster is listening so we don't have to
+			    // hardcode the raycaster.
+			    this.el.addEventListener('raycaster-intersected', evt => {
+				this.raycaster = evt.detail.el;
+			    });
+			    this.el.addEventListener('raycaster-intersected-cleared', evt => {
+				this.raycaster = null;
+			    });
+			},
+			update: function (oldData) {
+			    //
+			},
+			tick: function () {
+			    if (!this.raycaster) { return; }  // Not intersecting.
+
+			    let intersection = this.raycaster.components.raycaster.getIntersection(this.el);
+			    if (!intersection) { return; }
+			    //console.log(intersection.point);
+			    this.data.target.setAttribute("position", intersection.point);
+			}
+			});
+		</script>
 	</head>
 	<body style='margin: 0; overflow: hidden;'>
-		<a-scene ar vr-mode-ui="enabled: false"
+		<a-scene ar raycaster-move="target:#intersection"
+			 vr-mode-ui="enabled: false"
 				embedded  
 			 webxr="requiredFeatures: hit-test,local-floor;
 				optionalFeatures: dom-overlay,unbounded;
 				overlayElement: #overlay;">
-			<a-camera></a-camera>
-			<a-gltf-model id=#capsid src="separated_colored.glb" scale="0.1 0.1 0.1" position="0 0 -40" rotation="0 -90 0" animation-mixer shadow="cast: true"></a-gltf-model>
-			<a-ring id="cursor" color="teal" radius-inner="0.02" radius-outer="0.03" position="0 -3 -3" rotation="-90 0 0"></a-ring>
+			<a-camera user-height="0" cursor="fuse:false" ar-raycaster raycaster="objects:none"></a-camera>
+			<a-gltf-model id=#capsid src="separated_colored.glb" scale="0.1 0.1 0.1" position="0 0 -40" rotation="0 -90 0" shadow="cast: true"></a-gltf-model>
+			<a-sphere id="intersection" visible="false" radius="0.02" color="red"></a-sphere>
 		</a-scene>
+		<script>
+			let scene = document.querySelector('a-scene');
+        		let capsid;
+			
+			function activateFox() {
+				capsid = document.querySelector('#capsid');
+			}
+			
+			 function onceSceneLoaded() {
+				let raycaster = document.querySelector('[ar-raycaster]');
+				let marker = document.querySelector('#intersection');
+				activateFox();
+
+				raycaster.addEventListener('raycaster-intersection', function (event) {
+				const intersection = event.detail.intersections[0]; //.find(i => i.object.type === 'Scene');
+				if (intersection) {
+				    marker.setAttribute('position', intersection.point);
+				    marker.setAttribute('visible', true);
+				    marker.setAttribute('color', 'green');
+				}
+				});
+
+				raycaster.addEventListener('raycaster-intersection-cleared', function (event) {
+				marker.setAttribute('color', 'red');
+				});
+
+				const { stringify } = AFRAME.utils.coordinates;
+
+				let lastEvent = null;
+				raycaster.addEventListener('click', function () {
+					const currentEvent = new Date().getTime();
+					if (lastEvent && (currentEvent - lastEvent < 1000)) {
+					    return;
+					}
+					lastEvent = currentEvent;
+
+					const targetPosition = raycaster.components.cursor
+					  // this is broken in current A-Frame 1.0.x --> .intersection.point;
+					  .intersectedEventDetail.intersection.point;
+					if (!capsid.getAttribute('visible')) {
+					    capsid.setAttribute('visible', true);
+					    capsid.setAttribute('position', stringify(targetPosition));
+					} else {
+					    const currentPosition = capsid.object3D.position;
+					    const distance = currentPosition.distanceTo(targetPosition);
+					    // face the right way
+					    capsid.object3D.lookAt(targetPosition);
+					}
+				}};
+		</script>
 	</body>
 </html>
