@@ -1,182 +1,22 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset='utf-8'>
-	<meta http-equiv='X-UA-Compatible' content='IE=edge'>
-	<title>Protein-Go demo</title>
-	<script src='https://cdn.jsdelivr.net/gh/aframevr/aframe@1c2407b26c61958baa93967b5412487cd94b290b/dist/aframe-master.min.js'></script>
-	<script src='https://aframe.io/releases/0.9.2/aframe.min.js'></script>
-	<script src="https://cdn.rawgit.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.js"></script>
-	<script src="https://google-ar.github.io/three.ar.js/dist/three.ar.js"></script>
-	<script src="https://rawgit.com/chenzlabs/aframe-ar/827e9db/dist/aframe-ar.min.js"></script>
-	<script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/cfe5f316/dist/aframe-extras.js"></script>
-</head>
-<script>
-	window.onload = () => {
-	let method = 'dynamic';
-
-	// if you want to statically add places, de-comment following line
-	method = 'static';
-
-	if (method === 'static') {
-	    let places = staticLoadPlaces();
-	    renderPlaces(places);
-	}
-
-	if (method !== 'static') {
-
-	    // first get current user location
-	    return navigator.geolocation.getCurrentPosition(function (position) {
-
-		// than use it to load from remote APIs some places nearby
-		dynamicLoadPlaces(position.coords)
-		    .then((places) => {
-			renderPlaces(places);
-		    })
-	    },
-		(err) => console.error('Error in retrieving position', err),
-		{
-		    enableHighAccuracy: true,
-		    maximumAge: 0,
-		    timeout: 27000,
-		}
-	    );
-	}
-	};
-
-	function staticLoadPlaces() {
-	return [
-	    {
-		name: "Seperated_Colored",
-		location: {
-		    lat: 40.030786, // add here latitude if using static data
-		    lng: -75.22183, // add here longitude if using static data
-		}
-	    },
-	    {
-		name: 'Place 2',
-		location: {
-		    lat: 0,
-		    lng: 0,
-		}
-	    }
-	];
-	}
-	var models = [
-	    {
-		url: 'seperated_colored.glb',
-		scale: '0.5 0.5 0.5',
-		info: 'Seperated BMV Capsid, Fake Breathing',
-		rotation: '0 180 0',
-	    },
-	];
-	var modelIndex = 0;
-	var setModel = function (model, entity) {
-	    if (model.scale) {
-		entity.setAttribute('scale', model.scale);
-	    }
-
-	    if (model.rotation) {
-		entity.setAttribute('rotation', model.rotation);
-	    }
-
-	    if (model.position) {
-		entity.setAttribute('position', model.position);
-	    }
-
-	    entity.setAttribute('gltf-model', model.url);
-
-	    const div = document.querySelector('.instructions');
-	    div.innerText = model.info;
-	};
-	// getting places from REST APIs
-	function dynamicLoadPlaces(position) {
-	let params = {
-	    radius: 300,    // search places not farther than this value (in meters)
-	    clientId: 'HZIJGI4COHQ4AI45QXKCDFJWFJ1SFHYDFCCWKPIJDWHLVQVZ',   // add your credentials here
-	    clientSecret: '',   // add your credentials here
-	    version: '20300101',    // foursquare versioning, required but unuseful for this demo
-	};
-
-	// CORS Proxy to avoid CORS problems
-	let corsProxy = 'https://cors-anywhere.herokuapp.com/';
-
-	// Foursquare API
-	let endpoint = `${corsProxy}https://api.foursquare.com/v2/venues/search?intent=checkin
-	    &ll=${position.latitude},${position.longitude}
-	    &radius=${params.radius}
-	    &client_id=${params.clientId}
-	    &client_secret=${params.clientSecret}
-	    &limit=15
-	    &v=${params.version}`;
-	return fetch(endpoint)
-	    .then((res) => {
-		return res.json()
-		    .then((resp) => {
-			return resp.response.venues;
-		    })
-	    })
-	    .catch((err) => {
-		console.error('Error with places API', err);
-	    })
-	};
-
-	function renderPlaces(places) {
-	let scene = document.querySelector('a-scene');
-
-	places.forEach((place) => {
-	    const latitude = place.location.lat;
-	    const longitude = place.location.lng;
-
-	    // add place icon
-	    const model = document.createElement('a-entity');
-	    model.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude}`);
-	    setModel(models[modelIndex], model);
-	    model.setAttribute('animation-mixer', '');
-
-	    // for debug purposes, just show in a bigger scale, otherwise I have to personally go on places...
-	    model.setAttribute('scale', '20, 20');
-
-	    model.addEventListener('loaded', () => window.dispatchEvent(new CustomEvent('gps-entity-place-loaded')));
-
-	    const clickListener = function (ev) {
-		ev.stopPropagation();
-		ev.preventDefault();
-
-		const name = ev.target.getAttribute('name');
-
-		const el = ev.detail.intersection && ev.detail.intersection.object.el;
-
-		if (el && el === ev.target) {
-		    const label = document.createElement('span');
-		    const container = document.createElement('div');
-		    container.setAttribute('id', 'place-label');
-		    label.innerText = name;
-		    container.appendChild(label);
-		    document.body.appendChild(container);
-
-		    setTimeout(() => {
-			container.parentElement.removeChild(container);
-		    }, 1500);
-		}
-	    };
-
-	    model.addEventListener('click', clickListener);
-
-	    scene.appendChild(model);
-	});
-	}
-</script>
-
-<body style='margin: 0; overflow: hidden;'>
-    <a-scene
-        cursor='rayOrigin: mouse; fuse: true; fuseTimeout: 0;'
-        raycaster="objects: [gps-entity-place];"
-        vr-mode-ui="enabled: false"
-		embedded
-		arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
-        <a-camera gps-camera rotation-reader>
-		</a-camera>
-	</a-scene>
-</body>
+	<head>
+		<meta charset='utf-8'>
+		<meta http-equiv='X-UA-Compatible' content='IE=edge'>
+		<title>Protein-Go demo</title>
+		<script src='https://aframe.io/releases/0.9.2/aframe.min.js'></script>
+		<script src="https://cdn.rawgit.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.js"></script>
+	   	<script src="https://google-ar.github.io/three.ar.js/dist/three.ar.js"></script>
+		<script src="https://rawgit.com/chenzlabs/aframe-ar/827e9db/dist/aframe-ar.min.js"></script>
+		<script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/cfe5f316/dist/aframe-extras.js"></script>
+	</head>
+	<body>
+		<a-scene ar>
+		  <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
+		  <a-box position="-1 0.5 -3" rotation="0 45 0" width="1" height="1" depth="1" color="#4CC3D9"></a-box>
+		  <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
+		  <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
+		  <a-sky color="#ECECEC"></a-sky>
+		</a-scene>
+	</body>
 </html>
