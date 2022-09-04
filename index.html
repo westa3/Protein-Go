@@ -10,7 +10,13 @@
 		<script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/cfe5f316/dist/aframe-extras.js"></script>
 	</head>
 	<body>
-		<a-scene ar>
+		<a-scene ar vr-mode-ui="enabled: false"
+				embedded 
+			 arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; 
+			       displayHeight: 960; debugUIEnabled: false; trackingMethod: best;' 
+			 webxr="requiredFeatures: hit-test,local-floor;
+				optionalFeatures: dom-overlay,unbounded;
+				overlayElement: #overlay;">
 		  <a-camera></a-camera>
 		  <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
 		  <a-box position="-1 0.5 -3" rotation="0 45 0" width="1" height="1" depth="1" color="#4CC3D9"></a-box>
