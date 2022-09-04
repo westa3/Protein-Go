@@ -57,8 +57,10 @@
 			 webxr="requiredFeatures: hit-test,local-floor;
 				optionalFeatures: dom-overlay,unbounded;
 				overlayElement: #overlay;">
-			<a-camera drag-rotate-component></a-camera>
 			<a-gltf-model id="virtualObject" src="separated_colored.glb" scale="0.1 0.1 0.1" position="0 0 -40" rotation="0 -90 0" shadow="cast: true"></a-gltf-model>
+			<a-entity position="0 -0.5 1">
+				<a-camera drag-rotate-component look-controls="enabled:false"></a-camera>
+			</a-entity>
 		</a-scene>
 	</body>
 </html>
