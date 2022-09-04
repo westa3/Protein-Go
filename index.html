@@ -14,7 +14,14 @@
 		<a-assets>
 			<a-asset-item id="capsid" src="separated_colored.glb"></a-asset-item>
 		</a-assets>
-		<a-scene id="immersive-ar">
+		<a-scene id="immersive-ar"
+			 vr-mode-ui="enabled: false"
+				embedded 
+			 arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; 
+			       displayHeight: 960; debugUIEnabled: false; trackingMethod: best;' 
+			 webxr="requiredFeatures: hit-test,local-floor;
+				optionalFeatures: dom-overlay,unbounded;
+				overlayElement: #overlay;">
 			<a-gltf-model id="moving_capsid" position="0 0 -40" scale="0.1 0.1 0.1" rotation="0 45 0" hide-on-enter-ar src="#capsid" animation-mixer
 				    shadow="cast: true; receive: false" scale-on-mouseenter></a-gltf-model>
 			<a-camera ar-raycaster raycaster position="0 1.2 0">
