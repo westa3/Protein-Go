@@ -12,134 +12,160 @@
 	<script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/cfe5f316/dist/aframe-extras.js"></script>
 </head>
 <script>
-    window.onload = () => {
-        let method = 'dynamic';
+	window.onload = () => {
+	let method = 'dynamic';
 
-        // if you want to statically add places, de-comment following line
-        method = 'static';
+	// if you want to statically add places, de-comment following line
+	method = 'static';
 
-        if (method === 'static') {
-            let places = staticLoadPlaces();
-            renderPlaces(places);
-        }
+	if (method === 'static') {
+	    let places = staticLoadPlaces();
+	    renderPlaces(places);
+	}
 
-        if (method !== 'static') {
+	if (method !== 'static') {
 
-            // first get current user location
-            return navigator.geolocation.getCurrentPosition(function (position) {
+	    // first get current user location
+	    return navigator.geolocation.getCurrentPosition(function (position) {
 
-                // than use it to load from remote APIs some places nearby
-                dynamicLoadPlaces(position.coords)
-                    .then((places) => {
-                        renderPlaces(places);
-                    })
-            },
-                (err) => console.error('Error in retrieving position', err),
-                {
-                    enableHighAccuracy: true,
-                    maximumAge: 0,
-                    timeout: 27000,
-                }
-            );
-        }
-    };
+		// than use it to load from remote APIs some places nearby
+		dynamicLoadPlaces(position.coords)
+		    .then((places) => {
+			renderPlaces(places);
+		    })
+	    },
+		(err) => console.error('Error in retrieving position', err),
+		{
+		    enableHighAccuracy: true,
+		    maximumAge: 0,
+		    timeout: 27000,
+		}
+	    );
+	}
+	};
 
-    function staticLoadPlaces() {
-        return [
-            {
-                name: "Your place name",
-                location: {
-                    lat: 0, // add here latitude if using static data
-                    lng: 0, // add here longitude if using static data
-                }
-            },
-            {
-                name: 'Another place name',
-                location: {
-                    lat: 0,
-                    lng: 0,
-                }
-            }
-        ];
-    }
+	function staticLoadPlaces() {
+	return [
+	    {
+		name: "Seperated_Colored",
+		location: {
+		    lat: 40.030786, // add here latitude if using static data
+		    lng: -75.22183, // add here longitude if using static data
+		}
+	    },
+	    {
+		name: 'Place 2',
+		location: {
+		    lat: 0,
+		    lng: 0,
+		}
+	    }
+	];
+	}
+	var models = [
+	    {
+		url: 'seperated_colored.glb',
+		scale: '0.5 0.5 0.5',
+		info: 'Seperated BMV Capsid, Fake Breathing',
+		rotation: '0 180 0',
+	    },
+	];
+	var modelIndex = 0;
+	var setModel = function (model, entity) {
+	    if (model.scale) {
+		entity.setAttribute('scale', model.scale);
+	    }
 
-    // getting places from REST APIs
-    function dynamicLoadPlaces(position) {
-        let params = {
-            radius: 300,    // search places not farther than this value (in meters)
-            clientId: 'HZIJGI4COHQ4AI45QXKCDFJWFJ1SFHYDFCCWKPIJDWHLVQVZ',   // add your credentials here
-            clientSecret: '',   // add your credentials here
-            version: '20300101',    // foursquare versioning, required but unuseful for this demo
-        };
+	    if (model.rotation) {
+		entity.setAttribute('rotation', model.rotation);
+	    }
 
-        // CORS Proxy to avoid CORS problems
-        let corsProxy = 'https://cors-anywhere.herokuapp.com/';
+	    if (model.position) {
+		entity.setAttribute('position', model.position);
+	    }
 
-        // Foursquare API
-        let endpoint = `${corsProxy}https://api.foursquare.com/v2/venues/search?intent=checkin
-            &ll=${position.latitude},${position.longitude}
-            &radius=${params.radius}
-            &client_id=${params.clientId}
-            &client_secret=${params.clientSecret}
-            &limit=15
-            &v=${params.version}`;
-        return fetch(endpoint)
-            .then((res) => {
-                return res.json()
-                    .then((resp) => {
-                        return resp.response.venues;
-                    })
-            })
-            .catch((err) => {
-                console.error('Error with places API', err);
-            })
-    };
+	    entity.setAttribute('gltf-model', model.url);
 
-    function renderPlaces(places) {
-        let scene = document.querySelector('a-scene');
+	    const div = document.querySelector('.instructions');
+	    div.innerText = model.info;
+	};
+	// getting places from REST APIs
+	function dynamicLoadPlaces(position) {
+	let params = {
+	    radius: 300,    // search places not farther than this value (in meters)
+	    clientId: 'HZIJGI4COHQ4AI45QXKCDFJWFJ1SFHYDFCCWKPIJDWHLVQVZ',   // add your credentials here
+	    clientSecret: '',   // add your credentials here
+	    version: '20300101',    // foursquare versioning, required but unuseful for this demo
+	};
 
-        places.forEach((place) => {
-            const latitude = place.location.lat;
-            const longitude = place.location.lng;
+	// CORS Proxy to avoid CORS problems
+	let corsProxy = 'https://cors-anywhere.herokuapp.com/';
 
-            // add place icon
-            const icon = document.createElement('a-image');
-            icon.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude}`);
-            icon.setAttribute('name', place.name);
-            icon.setAttribute('src', '../assets/map-marker.png');
+	// Foursquare API
+	let endpoint = `${corsProxy}https://api.foursquare.com/v2/venues/search?intent=checkin
+	    &ll=${position.latitude},${position.longitude}
+	    &radius=${params.radius}
+	    &client_id=${params.clientId}
+	    &client_secret=${params.clientSecret}
+	    &limit=15
+	    &v=${params.version}`;
+	return fetch(endpoint)
+	    .then((res) => {
+		return res.json()
+		    .then((resp) => {
+			return resp.response.venues;
+		    })
+	    })
+	    .catch((err) => {
+		console.error('Error with places API', err);
+	    })
+	};
 
-            // for debug purposes, just show in a bigger scale, otherwise I have to personally go on places...
-            icon.setAttribute('scale', '20, 20');
+	function renderPlaces(places) {
+	let scene = document.querySelector('a-scene');
 
-            icon.addEventListener('loaded', () => window.dispatchEvent(new CustomEvent('gps-entity-place-loaded')));
+	places.forEach((place) => {
+	    const latitude = place.location.lat;
+	    const longitude = place.location.lng;
 
-            const clickListener = function (ev) {
-                ev.stopPropagation();
-                ev.preventDefault();
+	    // add place icon
+	    const model = document.createElement('a-entity');
+	    model.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude}`);
+	    setModel(models[modelIndex], model);
+	    model.setAttribute('animation-mixer', '');
 
-                const name = ev.target.getAttribute('name');
+	    // for debug purposes, just show in a bigger scale, otherwise I have to personally go on places...
+	    model.setAttribute('scale', '20, 20');
 
-                const el = ev.detail.intersection && ev.detail.intersection.object.el;
+	    model.addEventListener('loaded', () => window.dispatchEvent(new CustomEvent('gps-entity-place-loaded')));
 
-                if (el && el === ev.target) {
-                    const label = document.createElement('span');
-                    const container = document.createElement('div');
-                    container.setAttribute('id', 'place-label');
-                    label.innerText = name;
-                    container.appendChild(label);
-                    document.body.appendChild(container);
+	    const clickListener = function (ev) {
+		ev.stopPropagation();
+		ev.preventDefault();
 
-                    setTimeout(() => {
-                        container.parentElement.removeChild(container);
-                    }, 1500);
-                }
-            };
+		const name = ev.target.getAttribute('name');
 
-            icon.addEventListener('click', clickListener);
+		const el = ev.detail.intersection && ev.detail.intersection.object.el;
 
-            scene.appendChild(icon);
-        });
-    }
+		if (el && el === ev.target) {
+		    const label = document.createElement('span');
+		    const container = document.createElement('div');
+		    container.setAttribute('id', 'place-label');
+		    label.innerText = name;
+		    container.appendChild(label);
+		    document.body.appendChild(container);
+
+		    setTimeout(() => {
+			container.parentElement.removeChild(container);
+		    }, 1500);
+		}
+	    };
+
+	    model.addEventListener('click', clickListener);
+
+	    scene.appendChild(model);
+	});
+	}
 </script>
 
 <body style='margin: 0; overflow: hidden;'>
