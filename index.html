@@ -10,7 +10,46 @@
 		<script src="https://rawgit.com/chenzlabs/aframe-ar/827e9db/dist/aframe-ar.min.js"></script>
 		<script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/cfe5f316/dist/aframe-extras.js"></script>
 	</head>
-	<body>
+	<body style='margin: 0; overflow: hidden;'>
+		<script type="text/javascript">
+			AFRAME.registerComponent('drag-rotate',{
+				schema : { speed : {default:1}},
+				init : function(){
+				this.ifMouseDown = false;
+				this.x_cord = 0;
+				this.y_cord = 0;
+				document.addEventListener('mousedown',this.OnDocumentMouseDown.bind(this));
+				document.addEventListener('mouseup',this.OnDocumentMouseUp.bind(this));
+				document.addEventListener('mousemove',this.OnDocumentMouseMove.bind(this));
+				},
+				OnDocumentMouseDown : function(event){
+					this.ifMouseDown = true;
+					this.x_cord = event.clientX;
+					this.y_cord = event.clientY;
+				},
+				OnDocumentMouseUp : function(){
+					this.ifMouseDown = false;
+				},
+				OnDocumentMouseMove : function(event)
+				{
+					if(this.ifMouseDown)
+					{
+					  var temp_x = event.clientX-this.x_cord;
+					  var temp_y = event.clientY-this.y_cord;
+					  if(Math.abs(temp_y)<Math.abs(temp_x))
+					  {
+						this.el.object3D.rotateY(temp_x*this.data.speed/1000);
+					  }
+					  else
+					  {
+						this.el.object3D.rotateX(temp_y*this.data.speed/1000);
+					  }
+						this.x_cord = event.clientX;
+						this.y_cord = event.clientY;
+					}
+				}
+			});
+  		</script>
 		<a-scene ar vr-mode-ui="enabled: false"
 				embedded 
 			 arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; 
@@ -18,51 +57,10 @@
 			 webxr="requiredFeatures: hit-test,local-floor;
 				optionalFeatures: dom-overlay,unbounded;
 				overlayElement: #overlay;">
-			<a-entity position="0 0 -40" scale ="0.1 0.1 0.1">
-				<a-gltf-model id="capsid" src="separated_colored.glb" rotation="0 -90 0" shadow="cast: true"></a-gltf-model>
-			</a-entity>
 			<a-entity position="0 -0.5 1">
-				<a-camera ar-raycaster raycaster cursor="fuse:false">
-					<a-ring id="cursor" color="teal" radius-inner="0.02" radius-outer="0.03" position="0 -3 -3" rotation="-90 0 0"></a-ring>
-				</a-camera>
+				<a-camera look-controls="enabled:false"></a-camera>
 			</a-entity>
+			<a-gltf-model src="separated_colored.glb" drag-rotate scale="0.1 0.1 0.1" position="0 0 -40" rotation="0 -90 0" shadow="cast: true"></a-gltf-model>
 		</a-scene>
-		<script type="text/javascript">
-		      function onSceneLoaded() {
-			const raycaster = document.querySelector('[ar-raycaster]');
-			const cursor = document.querySelector('#cursor');
-			raycaster.addEventListener('raycaster-intersection', (event) => {
-			  cursor.setAttribute('position', event.detail.intersections[0].point);
-			});
-
-			const capsid = document.querySelector('#capsid');
-			const { stringify } = AFRAME.utils.coordinates;
-
-			let firstTime = true;
-			raycaster.addEventListener('click', () => {
-			  const target = raycaster.components.cursor.intersection.point;
-
-			  if (firstTime) {
-			    capsid.setAttribute('position', target);
-			    firstTime = false;
-			  } else {
-			    const currentPosition = capsid.object3D.position;
-			    const distance = currentPosition.distanceTo(target);
-
-			    capsid.object3D.lookAt(target);
-
-			    const animation = document.createElement('a-animation');
-			    animation.setAttribute('attribute', 'position');
-			    animation.setAttribute('to', stringify(target));
-			    animation.setAttribute('dur', distance * 7000);
-			    animation.setAttribute('easing', 'linear');
-			    capsid.appendChild(animation);
-			  }
-			});
-		      }
-
-		      const scene = document.querySelector('a-scene');
-		      scene.addEventListener('loaded', onSceneLoaded);
-		    </script>
 	</body>
 </html>
