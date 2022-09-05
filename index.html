@@ -18,10 +18,14 @@
 			 webxr="requiredFeatures: hit-test,local-floor;
 				optionalFeatures: dom-overlay,unbounded;
 				overlayElement: #overlay;">
-			<a-camera ar-raycaster raycaster cursor="fuse:false">
-				<a-ring id="cursor" color="teal" radius-inner="0.02" radius-outer="0.03" position="0 -3 -3" rotation="-90 0 0"></a-ring>
-			</a-camera>
-			<a-gltf-model id="capsid" src="separated_colored.glb" scale="0.1 0.1 0.1" position="0 0 -40" rotation="0 -90 0" shadow="cast: true"></a-gltf-model>
+			<a-entity position="0 -0.5 1">
+				<a-camera ar-raycaster raycaster cursor="fuse:false">
+					<a-ring id="cursor" color="teal" radius-inner="0.02" radius-outer="0.03" position="0 -3 -3" rotation="-90 0 0"></a-ring>
+				</a-camera>
+			</a-entity>
+			<a-entity position="0 0 40">
+				<a-gltf-model id="capsid" src="separated_colored.glb" scale="0.1 0.1 0.1" position="0 0 -40" rotation="0 -90 0" shadow="cast: true"></a-gltf-model>
+			</a-entity>
 		</a-scene>
 		<script type="text/javascript">
 		      function onSceneLoaded() {
