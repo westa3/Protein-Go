@@ -20,16 +20,128 @@
 	    		<a-gltf-model src="separated_colored.glb" position="0 0 -50" scale="0.1 0.1 0.1"></a-gltf-model>
 	  	</a-scene>
 		<script>
-			AFRAME.components["look-controls"].Component.prototype.onTouchMove = function (t) {
-				if (this.touchStarted && this.data.touchEnabled) {
-					this.pitchObject.rotation.x += .6 * Math.PI * (t.touches[0].pageY - this.touchStart.y) / this.el.sceneEl.canvas.clientHeight;
-					this.yawObject.rotation.y += /*  */ Math.PI * (t.touches[0].pageX - this.touchStart.x) / this.el.sceneEl.canvas.clientWidth;
-					this.pitchObject.rotation.x = Math.max(Math.PI / -2, Math.min(Math.PI / 2, this.pitchObject.rotation.x));
-					this.touchStart = {
-					    x: t.touches[0].pageX,
-					    y: t.touches[0].pageY
+			// To avoid recalculation at every mouse movement tick
+			var PI_2 = Math.PI / 2;
+
+			/**
+			 * look-controls. Update entity pose, factoring mouse, touch, and WebVR API data.
+			 */
+			module.exports.Component = registerComponent('look-controls', {
+				dependencies: ['position', 'rotation'],
+
+			  	schema: {
+				    enabled: {default: true},
+				    magicWindowTrackingEnabled: {default: true},
+				    pointerLockEnabled: {default: false},
+				    reverseMouseDrag: {default: false},
+				    reverseTouchDrag: {default: false},
+				    touchEnabled: {default: true},
+				    mouseEnabled: {default: true}
+			  	},
+
+				init: function () {
+					this.deltaYaw = 0;
+					this.previousHMDPosition = new THREE.Vector3();
+					this.hmdQuaternion = new THREE.Quaternion();
+					this.magicWindowAbsoluteEuler = new THREE.Euler();
+					this.magicWindowDeltaEuler = new THREE.Euler();
+					this.position = new THREE.Vector3();
+					this.magicWindowObject = new THREE.Object3D();
+					this.rotation = {};
+					this.deltaRotation = {};
+					this.savedPose = null;
+					this.pointerLocked = false;
+					this.setupMouseControls();
+					this.bindMethods();
+					this.previousMouseEvent = {};
+					
+					this.setupMagicWindowControls();
+			    	// To save / restore camera pose
+			    		this.savedPose = {
+					      position: new THREE.Vector3(),
+					      rotation: new THREE.Euler()
+					    };
+				update: function (oldData) {
+    					var data = this.data;
+			    		// Reset magic window eulers if tracking is disabled.
+					if (oldData && !data.magicWindowTrackingEnabled && oldData.magicWindowTrackingEnabled) {
+						this.magicWindowAbsoluteEuler.set(0, 0, 0);
+						this.magicWindowDeltaEuler.set(0, 0, 0);
 					}
-			    	}
+
+					// Pass on magic window tracking setting to magicWindowControls.
+					if (this.magicWindowControls) {
+						this.magicWindowControls.enabled = data.magicWindowTrackingEnabled;
+					}
+
+					if (oldData && !data.pointerLockEnabled !== oldData.pointerLockEnabled) {
+					      this.removeEventListeners();
+					      this.addEventListeners();
+						if (this.pointerLocked) { this.exitPointerLock(); }
+						}
+					},
+
+  				tick: function (t) {
+					var data = this.data;
+					if (!data.enabled) { return; }
+					this.updateOrientation();
+				},
+
+  				play: function () {
+    					this.addEventListeners();
+  				},
+
+ 				pause: function () {
+    					this.removeEventListeners();
+    					if (this.pointerLocked) { this.exitPointerLock(); }
+  				},
+
+  				remove: function () {
+    					this.removeEventListeners();
+    					if (this.pointerLocked) { this.exitPointerLock(); }
+  				},
+
+  				bindMethods: function () {
+					this.onMouseDown = bind(this.onMouseDown, this);
+					this.onMouseMove = bind(this.onMouseMove, this);
+					this.onMouseUp = bind(this.onMouseUp, this);
+					this.onTouchStart = bind(this.onTouchStart, this);
+					this.onTouchMove = bind(this.onTouchMove, this);
+					this.onTouchEnd = bind(this.onTouchEnd, this);
+					this.onEnterVR = bind(this.onEnterVR, this);
+					this.onExitVR = bind(this.onExitVR, this);
+					this.onPointerLockChange = bind(this.onPointerLockChange, this);
+					this.onPointerLockError = bind(this.onPointerLockError, this);
+				},
+				/**
+  				* Set up states and Object3Ds needed to store rotation data.
+ 				*/
+  				setupMouseControls: function () {
+					this.mouseDown = false;
+					this.pitchObject = new THREE.Object3D();
+					this.yawObject = new THREE.Object3D();
+					this.yawObject.position.y = 10;
+					this.yawObject.add(this.pitchObject);
+				},
+
+				/**
+				* Add mouse and touch event listeners to canvas.
+				*/
+				addEventListeners: function () {
+					var sceneEl = this.el.sceneEl;
+					var canvasEl = sceneEl.canvas;
+
+    					// Wait for canvas to load.
+    					if (!canvasEl) {
+      						sceneEl.addEventListener('render-target-loaded', bind(this.addEventListeners, this));
+      					return;
+    					}
+					// Touch events.
+    					canvasEl.addEventListener('touchstart', this.onTouchStart);
+    					window.addEventListener('touchmove', this.onTouchMove);
+    					window.addEventListener('touchend', this.onTouchEnd);
+				}
+				}
 			}
 		</script>
 	</body>
