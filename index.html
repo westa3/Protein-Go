@@ -12,12 +12,8 @@
     </head>
     <body>
         <a-scene ar vr-mode-ui="enabled: false"
-				embedded
-		 arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; 
-			       displayHeight: 960; debugUIEnabled: false; trackingMethod: best;' 
-			 webxr="requiredFeatures: hit-test,local-floor;
-				optionalFeatures: dom-overlay,unbounded;
-				overlayElement: #overlay;">
+				embedded arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; 
+			       displayHeight: 960; debugUIEnabled: false; trackingMethod: best;'>
 		<a-marker-camera preset='hiro'></a-marker-camera>
             	<a-gltf-model src="separated_colored.glb" position="0 0 -40" scale="0.1 0.1 0.1" shadow="cast: true"></a-gltf-model>
         </a-scene>
