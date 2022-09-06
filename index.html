@@ -16,8 +16,8 @@
 			 embedded arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; 
 					displayHeight: 960; debugUIEnabled: false; trackingMethod: best;' 
 			 webxr="requiredFeatures: hit-test,local-floor; optionalFeatures: dom-overlay,unbounded; overlayElement: #overlay;">
-			<a-camera user-height="0" rotation-reader></a-camera>
-	    		<a-gltf-model src="separated_colored.glb" position="0 0 -50" scale="0.1 0.1 0.1" look-controls-component></a-gltf-model>
+			<a-camera user-height="0" rotation-reader look-controls-component></a-camera>
+	    		<a-gltf-model src="separated_colored.glb" position="0 0 -50" scale="0.1 0.1 0.1"></a-gltf-model>
 	  	</a-scene>
 		<script>
 			AFRAME.components["look-controls"].Component.prototype.onTouchMove = function (t) {
