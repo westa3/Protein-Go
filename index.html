@@ -13,7 +13,14 @@
     <body>
         <a-scene ar>
 		<a-camera cursor="fuse:false"></a-camera>
-            		<a-gltf-model src="separated_colored.glb" position="0 0 -50" scale="0.1 0.1 0.1" shadow="cast: true"></a-gltf-model>
+		<a-assets>
+			<a-asset id="full_capsid" src="separated_colored.glb"></a-asset>
+		</a-assets>
+		<a-entity id="capsid">
+			<a-entity gltf-model="#full_capsid" scale="0.1 0.1 0.1" rotation="0 -90 0" shadow="cast: true"></a-entity>
+			<a-plane width="0.5" height="0.5" position="0 0 0" rotation="-90 0 0" 
+				color="white" shadow="receive: true" shadow-material></a-plane>
+		</a-entity>
         </a-scene>
     </body>
 </html>
