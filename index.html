@@ -7,20 +7,15 @@
 		<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 	</head>
     	<body>
-		<model-viewer src="separated_colored.glb" shadow-intensity="1" ar ar-placement="floor" ar-modes="webxr scene-viewer quick-look" camera-controls touch-action="pan-y" alt="A 3D model capsid">
-			<button slot="ar-button" id="ar-button">
-				View in your space
+		<model-viewer src="separated_colored.glb" shadow-intensity="1" ar ar-scale="fixed" ar-placement="floor" 
+			      ar-modes="webxr scene-viewer" camera-controls touch-action="pan-y" alt="A 3D model capsid">
+			<button slot="ar-button" style="background-color: white; border-radius: 4px; border: none; position: absolute; top: 16px; right: 16px; ">
+			      👋 Activate AR
 			</button>
-
 			<div id="ar-prompt">
 				<a-ring color="blue"></a-ring>
 			</div>
-
-			<button id="ar-failure">
-				AR is not tracking!
-			</button>
 		</model-viewer>
-
 		<script type="module">
 			const modelViewer = document.querySelector("model-viewer");
 
@@ -43,7 +38,7 @@
 		    		background-color: #eee;
 		    		overflow-x: hidden;
 				width: 960px;
-				height: 2480px;
+				height: 2080px;
 		  	}
 
 		  	#ar-button {
@@ -100,18 +95,6 @@
 
 			model-viewer > #ar-prompt > img {
 				animation: circle 4s linear infinite;
-			}
-
-			model-viewer > #ar-failure {
-				position: absolute;
-				left: 50%;
-				transform: translateX(-50%);
-				bottom: 175px;
-				display: none;
-			}
-
-			model-viewer[ar-tracking="not-tracking"] > #ar-failure {
-				display: block;
 			}
 		</style>
 	</body>
