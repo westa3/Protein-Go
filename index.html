@@ -29,12 +29,10 @@
 		  	});
 		</script>
 	</head>
-    	<body>
+    	<body style='margin : 0px; overflow: hidden;'>
 		<a-scene ar vr-mode-ui="enabled: false" 
-			 embedded arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; 
-					displayHeight: 960; debugUIEnabled: false; trackingMethod: best;' 
-			 webxr="requiredFeatures: hit-test,local-floor; optionalFeatures: dom-overlay,unbounded; overlayElement: #overlay;">
-			<a-camera user-height="0" rotation-reader></a-camera>
+			 embedded arjs='sourceType: webcam; debugUIEnabled: false;'>
+			<a-marker-camera preset='hiro'></a-marker-camera>
 	    		<a-gltf-model src="separated_colored.glb" click-listener position="0 0 -50" scale="0.1 0.1 0.1"></a-gltf-model>
 	  	</a-scene>
 	</body>
