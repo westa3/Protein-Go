@@ -10,18 +10,115 @@
 		<script>
 			THREEx.ArToolkitContext.baseURL = 'https://raw.githack.com/jeromeetienne/ar.js/master/three.js/'
 		</script>
+		<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 	</head>
-    	<body style='margin: 0; overflow: hidden;'>
-		<a-scene ar vr-mode-ui="enabled: false" 
-			 embedded arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; 
-					displayHeight: 960; debugUIEnabled: false; trackingMethod: best;' 
-			 webxr="requiredFeatures: hit-test,local-floor; optionalFeatures: dom-overlay,unbounded; overlayElement: #overlay;">
-			<a-camera user-height="0">
-				<a-entity cursor="rayOrigin:mouse"></a-entity>
-			</a-camera>
-			<a-gltf-model src="separated_colored.glb" position="0 0 -50" scale="0.1 0.1 0.1" 
-				      animation__enter="startEvents: mouseenter; property: scale; to: 0.1 0.1 0.1;"
-				      animation__leave="startEvents: mouseleave; property: scale; to: 0.2 0.2 0.2;"></a-gltf-model>
-		</a-scene>
+    	<body>
+		<model-viewer src="separated_colored.glb" scale="0.1 0.1 0.1" shadow-intensity="1" ar ar-modes="webxr scene-viewer quick-look" camera-controls touch-action="pan-y" alt="A 3D model capsid">
+			<button slot="ar-button" id="ar-button">
+				View in your space
+			</button>
+
+			<div id="ar-prompt">
+				<a-ring color="blue"></a-ring>
+			</div>
+
+			<button id="ar-failure">
+				AR is not tracking!
+			</button>
+		</model-viewer>
+
+		<script type="module">
+			const modelViewer = document.querySelector("model-viewer");
+
+		  	window.switchSrc = (element, name) => {
+				const base = "../../assets/ShopifyModels/" + name;
+				modelViewer.src = base + '.glb';
+				modelViewer.poster = base + '.webp';
+				const slides = document.querySelectorAll(".slide");
+				slides.forEach((element) => {element.classList.remove("selected");});
+				element.classList.add("selected");
+		  	};
+		</script>
+		<style>
+		  /* This keeps child nodes hidden while the element loads */
+		  	:not(:defined) > * {
+		    		display: none;
+		  	}
+
+		  	model-viewer {
+		    		background-color: #eee;
+		    		overflow-x: hidden;
+		  	}
+
+		  	#ar-button {
+				background-repeat: no-repeat;
+				background-size: 20px 20px;
+				background-position: 12px 50%;
+				background-color: #fff;
+				position: absolute;
+				left: 50%;
+				transform: translateX(-50%);
+				white-space: nowrap;
+				bottom: 132px;
+				padding: 0px 16px 0px 40px;
+				font-family: Roboto Regular, Helvetica Neue, sans-serif;
+				font-size: 14px;
+				color:#4285f4;
+				height: 36px;
+				line-height: 36px;
+				border-radius: 18px;
+				border: 1px solid #DADCE0;
+			}
+
+		  	#ar-button:active {
+		    		background-color: #E8EAED;
+		  	}
+
+		  	#ar-button:focus {
+		    		outline: none;
+		  	}
+
+		 	#ar-button:focus-visible {
+		    		outline: 1px solid #4285f4;
+		  	}
+
+		  	@keyframes circle {
+				from { transform: translateX(-50%) rotate(0deg) translateX(50px) rotate(0deg); }
+				to   { transform: translateX(-50%) rotate(360deg) translateX(50px) rotate(-360deg); }
+		  	}
+
+		  	@keyframes elongate {
+				from { transform: translateX(100px); }
+				to   { transform: translateX(-100px); }
+		  	}
+
+		  	model-viewer > #ar-prompt {
+				position: absolute;
+				left: 50%;
+				bottom: 175px;
+				animation: elongate 2s infinite ease-in-out alternate;
+				display: none;
+		  	}
+
+			model-viewer[ar-status="session-started"] > #ar-prompt {
+				display: block;
+			}
+
+			model-viewer > #ar-prompt > img {
+				animation: circle 4s linear infinite;
+			}
+
+			model-viewer > #ar-failure {
+				position: absolute;
+				left: 50%;
+				transform: translateX(-50%);
+				bottom: 175px;
+				display: none;
+			}
+
+			model-viewer[ar-tracking="not-tracking"] > #ar-failure {
+				display: block;
+			}
+		</style>
 	</body>
 </html>
