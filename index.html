@@ -17,12 +17,8 @@
 					displayHeight: 960; debugUIEnabled: false; trackingMethod: best;' 
 			 webxr="requiredFeatures: hit-test,local-floor; optionalFeatures: dom-overlay,unbounded; overlayElement: #overlay;">
 			<a-camera user-height="0" rotation-reader></a-camera>
-			<a-ring cursor="rayOrigin:mouse" color="blue"></a-ring>
 	    		<a-gltf-model src="separated_colored.glb" position="0 0 -50" 
-				      animation__enter="startEvents: mouseenter; property: scale; to: 0.05 0.05 0.05;"
 				      animation__leave="startEvents: mouseleave; property: scale; to: 0.1 0.1 0.1;"></a-gltf-model>
 	  	</a-scene>
-		<script>
-		</script>
 	</body>
 </html>
