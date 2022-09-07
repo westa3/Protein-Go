@@ -5,13 +5,15 @@
 		<meta http-equiv='X-UA-Compatible' content='IE=edge'>
 		<title>Protein Go! demo</title>
 		<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+		<script type="module" src="https://unpkg.com/@leoncvlt/ar-button"></script>
+		<link rel="stylesheet" href="https://unpkg.com/@leoncvlt/ar-button/styles.css">
 	</head>
     	<body>
 		<model-viewer src="separated_colored.glb" shadow-intensity="1" ar ar-scale="fixed" ar-placement="floor" 
 			      ar-modes="webxr scene-viewer" camera-controls touch-action="pan-y" alt="A 3D model capsid">
-			<div id="ar-prompt">
-				<a-ring color="blue"></a-ring>
-			</div>
+			<ar-button>
+      				See in Augmented Reality 
+			</ar-button>
 		</model-viewer>
 		<script type="module">
 			const modelViewer = document.querySelector("model-viewer");
