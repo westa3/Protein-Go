@@ -10,24 +10,11 @@
 		<script>
 			THREEx.ArToolkitContext.baseURL = 'https://raw.githack.com/jeromeetienne/ar.js/master/three.js/'
 		</script>
-		<script>
-			AFRAME.registerComponent('rotation-reader', {
-				tick: (function () {
-					var position = new THREE.Vector3();
-					var quaternion = new THREE.Quaternion();
-
-				return function () {
-					this.el.object3D.getWorldPosition(position);
-					this.el.object3D.getWorldQuaternion(quaternion);
-					};
-				})()
-			});
-		</script>
 	</head>
     	<body style='margin : 0px; overflow: hidden;'>
 		<a-scene ar vr-mode-ui="enabled: false" 
 			 embedded arjs='sourceType: webcam; debugUIEnabled: false;'>
-			<a-camera position="0 1.6 0" rotation-reader></a-camera>
+			<a-camera position="0 1.6 0" camera="active: true"></a-camera>
 	    		<a-gltf-model src="separated_colored.glb" position="0 0 -50" scale="0.1 0.1 0.1"></a-gltf-model>
 		</a-scene>
 	</body>
