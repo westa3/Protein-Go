@@ -16,7 +16,10 @@
 		</model-viewer>
 		<script type="module">
 			const modelViewer = document.querySelector("model-viewer");
-
+			modelViewer.addEventListener('load', function () { 
+    				modelViewer.activateAR(); 
+			});
+			
 		  	window.switchSrc = (element, name) => {
 				const base = "../../assets/ShopifyModels/" + name;
 				modelViewer.src = base + '.glb';
