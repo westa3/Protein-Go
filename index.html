@@ -19,15 +19,6 @@
 			modelViewer.addEventListener('load', function () { 
     				modelViewer.activateAR(); 
 			});
-			
-		  	window.switchSrc = (element, name) => {
-				const base = "../../assets/ShopifyModels/" + name;
-				modelViewer.src = base + '.glb';
-				modelViewer.poster = base + '.webp';
-				const slides = document.querySelectorAll(".slide");
-				slides.forEach((element) => {element.classList.remove("selected");});
-				element.classList.add("selected");
-		  	};
 		</script>
 		<style>
 		  /* This keeps child nodes hidden while the element loads */
