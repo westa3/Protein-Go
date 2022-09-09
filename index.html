@@ -13,21 +13,9 @@
 				View in your space
 			</button>
 
-			<div id="ar-prompt"></div>
-
-			<button id="ar-failure">
-				AR is not tracking!
-			</button>
-
 		</model-viewer>
 		<script type="module">
 			const modelViewer = document.querySelector("model-viewer");
-
-			window.switchSrc = (element, name) => {
-			const base = "../../assets/ShopifyModels/" + name;
-			modelViewer.src = base + '.glb';
-			modelViewer.poster = base + '.webp';
-			};
 		</script>
 		<style>
 			/* This keeps child nodes hidden while the element loads */
