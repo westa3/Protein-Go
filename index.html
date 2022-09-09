@@ -9,7 +9,7 @@
 	<body>
 		<model-viewer src="separated_colored.glb" shadow-intensity="1" ar ar-modes="webxr scene-viewer quick-look" camera-controls touch-action="pan-y" alt="A 3D model capsid">
 
-			<button slot="ar-button" id="ar-button">
+			<button slot="ar-button" id="ar-button" onclick="(event) => {modelViewer.launchAR()}">
 				View in your space
 			</button>
 
@@ -22,7 +22,6 @@
 		</model-viewer>
 		<script type="module">
 			const modelViewer = document.querySelector("model-viewer");
-			modelViewer.activateAR()
 
 			window.switchSrc = (element, name) => {
 			const base = "../../assets/ShopifyModels/" + name;
