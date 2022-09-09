@@ -5,10 +5,11 @@
 		<meta http-equiv='X-UA-Compatible' content='IE=edge'>
 		<title>Protein Go! demo</title>
 		<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+		<script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>
 	</head>
 	<body>
 		<model-viewer src="AT130_final.glb" ios-src="AT130_final.usdz" shadow-intensity="1" ar ar-modes="webxr scene-viewer quick-look" 
-			      camera-controls touch-action="pan-y" alt="A 3D model capsid"></model-viewer>
+			      camera-controls touch-action="pan-y" alt="A 3D model capsid" magic-leap unstable-webxr></model-viewer>
 		<script type="module">
 			const modelViewer = document.querySelector("model-viewer");
 		</script>
