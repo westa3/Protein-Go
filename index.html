@@ -17,9 +17,9 @@
 			<div class="slider">
     				<div class="slides">
       					<button class="slide selected" onclick="switchSrc(this, 'AT130')" 
-						style="background-image: 'BMV.jpeg');"></button>
+						style="background-image: url('BMV.jpeg');"></button>
 					<button class="slide" onclick="switchSrc(this, 'BMV')" 
-						style="background-image: url('bmv_image.jpeg');"></button>
+						style="background-image: url('BMV.jpeg');"></button>
 				</div>
 			</div>
 		</model-viewer>
@@ -27,9 +27,9 @@
 			const modelViewer = document.querySelector("model-viewer");
 			
 			window.switchSrc = (element, name) => {
-    				const base = "../" + name;
+    				const base = "/" + name;
     				modelViewer.src = base + '.glb';
-   				 modelViewer.poster = base + '.jpeg';
+   				modelViewer.poster = base + '.jpeg';
     				const slides = document.querySelectorAll(".slide");
     				slides.forEach((element) => {element.classList.remove("selected");});
     				element.classList.add("selected");
