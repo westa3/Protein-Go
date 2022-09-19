@@ -21,12 +21,7 @@
 					<button class="slide" onclick="switchSrc(this, 'BMV')" 
 						style="background-image: url('BMV.jpeg');"></button>
 				</div>
-			</div>
-			<button class="view-button" slot="hotspot-0" data-position="-0.0569m 0.0969m -0.1398m" 
-				data-normal="-0.5829775m 0.2863482m -0.7603565m" data-orbit="-50.94862deg 84.56856deg 0.06545582m" 
-				data-target="-0.04384604m 0.07348397m -0.1213202m">
-    				AT130 Drugs
-  			</button>   
+			</div>   
 		</model-viewer>
 		<script type="module">
 			const modelViewer = document.querySelector("model-viewer");
@@ -43,17 +38,6 @@
   			document.querySelector(".slider").addEventListener('beforexrselect', (ev) => {
     				// Keep slider interactions from affecting the XR scene.
     				ev.preventDefault();
-  			});
-			
-			const annotationClicked = (annotation) => {
-    				let dataset = annotation.dataset;
-				modelViewer.cameraTarget = dataset.target;
-				modelViewer.cameraOrbit = dataset.orbit;
-				modelViewer.fieldOfView = '45deg';
-  				}
-
-  			modelViewer1.querySelectorAll('button').forEach((hotspot) => {
-    				hotspot.addEventListener('click', () => annotationClicked(hotspot));
   			});
 		</script>
 		<style>
@@ -148,26 +132,6 @@
 
 			.slide:focus-visible {
 				outline: 1px solid #4285f4;
-			}
-			
-			.view-button {
-				background: #fff;
-				border-radius: 4px;
-				border: none;
-				box-sizing: border-box;
-				box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
-				color: rgba(0, 0, 0, 0.8);
-				display: block;
-				font-family: Futura, Helvetica Neue, sans-serif;
-				font-size: 12px;
-				font-weight: 700;
-				max-width: 128px;
-				overflow-wrap: break-word;
-				padding: 0.5em 1em;
-				position: absolute;
-				width: max-content;
-				height: max-content;
-				transform: translate3d(-50%, -50%, 0);
 			}
 		</style>
 	</body>
