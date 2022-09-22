@@ -17,15 +17,15 @@
 			<div class="slider">
     				<div class="slides">
       					<button class="slide selected" onclick="switchSrc(this, 'STMV')" 
-						style="background-image: url('BMV.jpeg');"></button>
+						style="background-image: url('STMV.webp');"></button>
 					<button class="slide" onclick="switchSrc(this, 'BMV')" 
-						style="background-image: url('BMV.jpeg');"></button>
+						style="background-image: url('BMV.webp');"></button>
 					<button class="slide" onclick="switchSrc(this, 'HBV')" 
-						style="background-image: url('BMV.jpeg');"></button>
+						style="background-image: url('HBV.webp');"></button>
 					<button class="slide" onclick="switchSrc(this, 'HPV')" 
-						style="background-image: url('BMV.jpeg');"></button>
+						style="background-image: url('HPV.webp');"></button>
 					<button class="slide" onclick="switchSrc(this, 'HIV')" 
-						style="background-image: url('BMV.jpeg');"></button>
+						style="background-image: url('HIV.webp');"></button>
 				</div>
 			</div>   
 		</model-viewer>
@@ -35,7 +35,7 @@
 			window.switchSrc = (element, name) => {
     				const base = "./" + name;
     				modelViewer.src = base + '.glb';
-   				modelViewer.poster = base + '.jpeg';
+   				modelViewer.poster = base + '.webp';
     				const slides = document.querySelectorAll(".slide");
     				slides.forEach((element) => {element.classList.remove("selected");});
     				element.classList.add("selected");
