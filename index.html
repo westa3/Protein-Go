@@ -8,36 +8,27 @@
 		<script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>
 	</head>
 	<body>
-		<model-viewer src="BMV.glb" ios-src = "BMV.usdz" shadow-intensity="1" ar ar-modes="scene-viewer quick-look"
+		<model-viewer src="STMV.glb" ios-src="STMV.usdz" shadow-intensity="1" ar ar-modes="scene-viewer quick-look"
 			      camera-controls touch-action="pan-y" alt="A 3D model capsid">
+			
 			<button slot="ar-button" style="background-color: yellow; border-radius: 4px; border: none; position: absolute; top: 30px; right: 16px; 
 							width: 150px; height: 50px;">
       				Activate AR
   			</button>
+			   
 			<div class="slider">
     				<div class="slides">
-      					<button class="slide selected" onclick="switchSrc(this, 'BMV')" 
-						style="background-image: url('BMV.webp');"></button>
-					<button class="slide" onclick="switchSrc(this, 'STMV')" 
-						style="background-image: url('STMV.webp');"></button>
-			</div>   
+      					<button class="slide selected" onclick="switchSrc(this, 'STMV')" 
+						style="background-image: url('../STMV.webp');"></button>
+					<button class="slide" onclick="switchSrc(this, 'BMV')" 
+						style="background-image: url('../BMV.webp');"></button>
+				</div>
+			</div>
+	
 		</model-viewer>
 		<script type="module">
 			const modelViewer = document.querySelector("model-viewer");
 			
-			window.switchSrc = (element, name) => {
-    				const base = "~/" + name;
-    				modelViewer.src = base + '.glb';
-   				modelViewer.poster = base + '.webp';
-    				const slides = document.querySelectorAll(".slide");
-    				slides.forEach((element) => {element.classList.remove("selected");});
-    				element.classList.add("selected");
-  			};
-
-  			document.querySelector(".slider").addEventListener('beforexrselect', (ev) => {
-    				// Keep slider interactions from affecting the XR scene.
-    				ev.preventDefault();
-  			});
 		</script>
 		<style>
 			/* This keeps child nodes hidden while the element loads */
@@ -132,6 +123,7 @@
 			.slide:focus-visible {
 				outline: 1px solid #4285f4;
 			}
+			
 		</style>
 	</body>
 </html>
