@@ -8,7 +8,7 @@
 		<script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>
 	</head>
 	<body>
-		<model-viewer src="./BMV.glb" shadow-intensity="1" exposure="0.5" 
+		<model-viewer src="./BMV.glb" loading="eager" shadow-intensity="1" exposure="0.5" 
 			      ar camera-controls touch-action="pan-y" alt="A 3D model capsid">
 			
 			<button slot="ar-button" style="background-color: white; border-radius: 100px; border: none; position: absolute; top: 24px; right: 24px; 
@@ -25,8 +25,6 @@
 			<div class="slider">
     				<div class="slides">
       					<button class="slide selected" onclick="switchSrc(this, 'BMV')" 
-						style="background-image:url('./BMV.webp');"></button>
-					<button class="slide selected" onclick="switchSrc(this, 'TEST')" 
 						style="background-image:url('./BMV.webp');"></button>
 				</div>
 			</div>
