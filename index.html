@@ -26,6 +26,8 @@
     				<div class="slides">
       					<button class="slide selected" onclick="switchSrc(this, 'BMV')" 
 						style="background-image:url('./BMV.webp');"></button>
+					<button class="slide selected" onclick="switchSrc(this, 'HIV')" 
+						style="background-image:url('./HIV.webp');"></button>
 				</div>
 			</div>
 	
@@ -36,6 +38,7 @@
     				const base = "./" + name;
     				modelViewer.src = base + '.glb';
     				modelViewer.poster = base + '.webp';
+				modelViewer.loading = 'eager';
     				const slides = document.querySelectorAll(".slide");
     				slides.forEach((element) => {element.classList.remove("selected");});
     				element.classList.add("selected");
