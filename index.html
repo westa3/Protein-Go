@@ -25,7 +25,9 @@
 			<div class="slider">
     				<div class="slides">
 					<button class="slide selected" onclick="switchSrc(this, 'STMV')" 
-						style="background-image:url('./STMV.webp');"></button>
+						style="background-image:url('./STMV.webp');">
+						<div class="annotation">STMV</div>
+					</button>
       					<button class="slide selected" onclick="switchSrc(this, 'BMV')" 
 						style="background-image:url('./BMV.webp');"></button>
 					<button class="slide selected" onclick="switchSrc(this, 'HBV')" 
@@ -137,6 +139,14 @@
 
 			model-viewer[ar-tracking="not-tracking"] > #ar-failure {
 				display: block;
+			}
+			
+			.annotation{
+				background-color: #888888;
+				position: absolute;
+				transform: translate(10px, 10px);
+				border-radius: 10px;
+				padding: 10px;
 			}
 			
 			.slider {
