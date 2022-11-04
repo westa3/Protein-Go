@@ -15,7 +15,7 @@
 							width: 100px; height: 50px; ">
           			Activate AR
       			</button>
-			
+			<div class="annotation">STMV</div>
 			<div id="ar-prompt"></div>
 			
 			<button id="ar-failure">
@@ -25,9 +25,7 @@
 			<div class="slider">
     				<div class="slides">
 					<button class="slide selected" onclick="switchSrc(this, 'STMV')" 
-						style="background-image:url('./STMV.webp');">
-						<div class="annotation">STMV</div>
-					</button>
+						style="background-image:url('./STMV.webp');"></button>
       					<button class="slide selected" onclick="switchSrc(this, 'BMV')" 
 						style="background-image:url('./BMV.webp');"></button>
 					<button class="slide selected" onclick="switchSrc(this, 'HBV')" 
@@ -62,6 +60,7 @@
     				modelViewer.poster = base + '.webp';
 				modelViewer.loading = 'eager';
     				const slides = document.querySelectorAll(".slide");
+				const annotation = document.querySelectorAll(".annotation");
     				slides.forEach((element) => {element.classList.remove("selected");});
     				element.classList.add("selected");
   			};
