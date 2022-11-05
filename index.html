@@ -61,20 +61,6 @@
 			});
 
 			const checkbox = modelViewer.querySelector('#show-dimensions');
-
-			function setVisibility(element) {
-				if (checkbox.checked) {
-					element.classList.remove('hide');
-				} else {
-					element.classList.add('hide');
-				}
-			}
-
-			slides.addEventListener('change', () => {
-				modelViewer.querySelectorAll('button').forEach((hotspot) => {
-					setVisibility(hotspot);
-				});
-			});
 			
 			 window.switchSrc = (element, name) => {
 				const hotspot = document.createElement('button');
@@ -82,11 +68,12 @@
 				hotspot.classList.add('dim');
 				hotspot.dataset.position = "2 2 2";
 				modelViewer.appendChild(hotspot);
-				var element = document.createElement("div");
-				element.classList.add('annotation');
-				element.appendChild(document.createTextNode(name));
+				const divs = document.createElement("div");
+				divs.classList.add('annotation');
+				divs.appendChild(document.createTextNode(name));
 				document.getElementBySlot(`hotspot`).appendChild(element);
 			};
+			
 		</script>
 		<style>
 			/* This keeps child nodes hidden while the element loads */
