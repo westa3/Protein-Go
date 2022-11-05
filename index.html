@@ -16,7 +16,7 @@
           			Activate AR
       			</button>
 			
-			<button slot="hotspot" class="dim; show" data-position="2 2 2" data-normal="2 2 2">
+			<button slot="hotspot" class="dim" data-position="2 2 2" data-normal="2 2 2">
 				<div class="annotation">STMV</div>
 			</button>
 			
@@ -68,7 +68,7 @@
 
 			function setVisibility(element) {
 				if (checkbox.checked) {
-					element.classList.remove('hide');
+					element.classList.add('show');
 				} else {
 					element.classList.add('hide');
 				}
@@ -169,7 +169,7 @@
 				display: block;
 			}
 
-			.dim{
+			.dim {
 				background: #fff;
 				border-radius: 4px;
 				border: none;
