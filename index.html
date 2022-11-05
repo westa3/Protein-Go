@@ -80,12 +80,12 @@
 				});
 			});
 			
-			option.addEventListener('change', () => {
+			slides.addEventListener('change', () => {
                 		modelViewer.querySelector('hotspot').forEach((annotation) => {
-                    			annotation.remove();
-                    			annotation.add();
-                    			annotation.src('option');
-               	 		})
+                    			document.removeChild("annotation");
+                    			const newhotspot = document.createElement("annotation");
+                    			newhotspot.appendChild(document.createTextNode('option'))
+                		})
             		});
 			
 		</script>
