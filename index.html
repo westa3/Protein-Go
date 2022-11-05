@@ -62,7 +62,7 @@
 
 			const checkbox = modelViewer.querySelector('#show-dimensions');
 			
-			 window.switchSrc = (element, name) => {
+			 function switchSrc(element, name) {
 				const hotspot = document.createElement('button');
 				hotspot.slot = `hotspot`;
 				hotspot.classList.add('dim');
