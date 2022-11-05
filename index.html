@@ -16,7 +16,9 @@
           			Activate AR
       			</button>
 			
-			<button slot="hotspot-dim+X-Y" class="dim" data-position="1 -1 0" data-normal="1 0 0"></button>
+			<button slot="hotspot-dim+X-Y" class="dim" data-position="1 -1 0" data-normal="1 0 0">
+				<div class="annotation">HERE</div>
+			</button>
 			
 			<div id="ar-prompt"></div>
 			
@@ -28,8 +30,8 @@
 			<div id="controls" class="dim">
 				<label for="src">Virus:</label>
 				<select id="src" style="height: 50px">
-					<option value="./STMV.glb" onclick="switchSrc(this, 'STMV')">STMV</option>
-					<option value="./Polio.glb" onclick="switchSrc(this, 'Polio')">Polio</option>
+					<option value="./STMV.glb">STMV</option>
+					<option value="./Polio.glb">Polio</option>
 					<option value="./CCMV.glb">CCMV</option>
 					<option value="./Norovirus.glb">Norovirus</option>
 					<option value="./BMV.glb">BMV</option>
