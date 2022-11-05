@@ -79,26 +79,25 @@
     				element.classList.add("selected");
 				annotation.forEach((element) => {element.classList.remove("selected");});
     				element.classList.add("selected");
-				function setVisibility(element) {
-					if (slides.selected) {
-						element.classList.remove('hide');
-					} else {
-						element.classList.add('hide');
-					}
-				}
-
-  				slides.addEventListener('change', () => {
-					setVisibility(modelViewer.querySelector('#annotation'));
-					modelViewer.querySelectorAll('annotation').forEach((annotation) => {
-						setVisibility(annotation);
-					});
-				});
   			};
 			document.querySelector(".slider").addEventListener('beforexrselect', (ev) => {
     				// Keep slider interactions from affecting the XR scene.
     				ev.preventDefault();
   			});
-			
+			function setVisibility(element) {
+				if (slides.selected) {
+					element.classList.remove('hide');
+				} else {
+					element.classList.add('hide');
+				}
+			}
+
+			slides.addEventListener('change', () => {
+				setVisibility(modelViewer.querySelector('#annotation'));
+				modelViewer.querySelectorAll('annotation').forEach((annotation) => {
+					setVisibility(annotation);
+				});
+			});
 		</script>
 		<style>
 			/* This keeps child nodes hidden while the element loads */
@@ -177,6 +176,14 @@
 				transform: translate(10px, 10px);
 				border-radius: 10px;
 				padding: 10px;
+			}
+			
+			.show{
+				--min-annotation-opacity: 1;
+			}
+
+			.hide{
+				display: none;
 			}
 			
 			.slider {
