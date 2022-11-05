@@ -22,6 +22,7 @@
     				AR is not tracking!
   			</button>
 			
+			<button slot="hotspot" class="dim" data-position="-1 -1 1" data-normal="-1 0 0">STMV</button>
 			
 			<div id="controls" class="dim">
 				<label for="src">Viruses:</label>
@@ -70,9 +71,9 @@
 			}
 
 			slides.addEventListener('change', () => {
-				setVisibility(modelViewer.querySelector('#annotation'));
-				modelViewer.querySelectorAll('button').forEach((annotation) => {
-					setVisibility(annotation);
+				setVisibility(modelViewer.querySelector('#hotspot'));
+				modelViewer.querySelectorAll('button').forEach((hotspot) => {
+					setVisibility(hotspot);
 				});
 			});
 		</script>
