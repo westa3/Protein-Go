@@ -68,7 +68,7 @@
 
 			function setVisibility(element) {
 				if (checkbox.checked) {
-					element.classList.add('show');
+					element.classList.remove('hide');
 				} else {
 					element.classList.add('hide');
 				}
@@ -81,9 +81,6 @@
 			});
 			
 			modelViewer.addEventListener('load', () => {
-				modelViewer.updateHotspot({
-					name: 'hotspot',
-				});
 				modelViewer.querySelector('button[slot="hotspot"]').textContent = `element`;
 			}
 			
