@@ -16,7 +16,7 @@
           			Activate AR
       			</button>
 			
-			<button slot="hotspot-dim+X-Y" class="dim" data-position="-2 -2 -2" data-normal="-2 -2 -2">
+			<button slot="hotspot" class="dim; show" data-position="-2 -2 -2" data-normal="-2 -2 -2">
 				<div class="annotation">STMV</div>
 			</button>
 			
@@ -80,7 +80,12 @@
 				});
 			});
 			
-			modelViewer.querySelector('button[slot="hotspot-dim+X-Y"]').textContent = `element`;
+			modelViewer.addEventListener('load', () => {
+				modelViewer.updateHotspot({
+					name: 'hotspot',
+				});
+				modelViewer.querySelector('button[slot="hotspot"]').textContent = `element`;
+			}
 			
 		</script>
 		<style>
