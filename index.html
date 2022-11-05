@@ -16,6 +16,10 @@
           			Activate AR
       			</button>
 			
+			<button slot="hotspot" class="dim" data-position="-2 -2 -2" data-normal="-2 -2 -2">
+				<div class="annotation">STMV</div>
+			</button>
+			
 			<div id="ar-prompt"></div>
 			
 			<button id="ar-failure">
@@ -49,10 +53,7 @@
 				<label for="show-dimensions">Show Info:</label>
 				<input id="show-dimensions" type="checkbox" checked="true" style="height: 50px; width: 50px">
 			</div>
-			
-			<button slot="hotspot" class="dim" data-position="-2 2 2" data-normal="-2 2 2">
-				<div class="annotation">STMV</div>
-			</button>
+
 	
 		</model-viewer>
 		<script type="module">
@@ -68,7 +69,6 @@
 			function setVisibility(element) {
 				if (checkbox.checked) {
 					element.classList.remove('hide');
-					element.classList.add('show');
 				} else {
 					element.classList.add('hide');
 				}
