@@ -25,8 +25,8 @@
 			
 			<div id="controls" class="dim">
 				<label for="src">Viruses:</label>
-				<select id="src" style="background-color: white; border-radius: 100px; border: none; width: 100px; height: 50px; ">
-					<option value="./STMV.glb" style="justify-content: center">STMV</option>
+				<select id="src">
+					<option value="./STMV.glb">STMV</option>
 					<option value="./Polio.glb">Polio</option>
 					<option value="./CCMV.glb">CCMV</option>
 					<option value="./Norovirus.glb">Norovirus</option>
@@ -126,6 +126,16 @@
 				border-radius: 18px;
 				border: 1px solid #DADCE0;
 			}
+			
+			#controls {
+				position: absolute;
+				bottom: 16px;
+				left: 16px;
+				max-width: unset;
+				transform: unset;
+				pointer-events: auto;
+ 			}
+
 
 			model-viewer[ar-status="session-started"] > #ar-prompt {
 				display: block;
@@ -145,6 +155,28 @@
 
 			model-viewer[ar-tracking="not-tracking"] > #ar-failure {
 				display: block;
+			}
+
+			.dim{
+				background: #fff;
+				border-radius: 4px;
+				border: none;
+				box-sizing: border-box;
+				box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+				color: rgba(0, 0, 0, 0.8);
+				display: block;
+				font-family: Futura, Helvetica Neue, sans-serif;
+				font-size: 18px;
+				font-weight: 700;
+				max-width: 128px;
+				overflow-wrap: break-word;
+				padding: 0.5em 1em;
+				position: absolute;
+				width: max-content;
+				height: max-content;
+				transform: translate3d(-50%, -50%, 0);
+				pointer-events: none;
+				--min-hotspot-opacity: 0;
 			}
 			
 			.annotation{
