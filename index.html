@@ -16,6 +16,8 @@
           			Activate AR
       			</button>
 			
+			<button slot="hotspot-dim+X-Y" class="dim" data-position="1 -1 0" data-normal="1 0 0"></button>
+			
 			<div id="ar-prompt"></div>
 			
 			<button id="ar-failure">
@@ -62,17 +64,34 @@
 
 			const checkbox = modelViewer.querySelector('#show-dimensions');
 			
-			 function switchSrc(element, name) {
-				const hotspot = document.createElement('button');
-				hotspot.slot = `hotspot`;
-				hotspot.classList.add('dim');
-				hotspot.dataset.position = "2 2 2";
-				modelViewer.appendChild(hotspot);
-				const divs = document.createElement("div");
-				divs.classList.add('annotation');
-				divs.appendChild(document.createTextNode(name));
-				document.getElementBySlot(`hotspot`).appendChild(element);
-			};
+			function setVisibility(element) {
+				if (checkbox.checked) {
+					element.classList.remove('hide');
+				} else {
+					element.classList.add('hide');
+				}
+			}
+
+			checkbox.addEventListener('change', () => {
+				setVisibility(modelViewer.querySelector('#hotspot'));
+				modelViewer.querySelectorAll('button').forEach((hotspot) => {
+					setVisibility(hotspot);
+				});
+			});
+
+ 			modelViewer.addEventListener('load', () => {
+				const center = modelViewer.getBoundingBoxCenter();
+				const size = modelViewer.getDimensions();
+				const x2 = size.x / 2;
+				const y2 = size.y / 2;
+				const z2 = size.z / 2;
+
+    				modelViewer.updateHotspot({
+      					name: 'hotspot-dim+X-Y',
+      					position: `${center.x + x2} ${center.y - y2} ${center.z}`
+    				});
+				
+			}
 			
 		</script>
 		<style>
