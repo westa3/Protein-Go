@@ -16,7 +16,7 @@
           			Activate AR
       			</button>
 			
-			<button class="annotation">HERE</button>
+			<hotspot class="annotation">HERE</hotspot>
 			
 			<div id="ar-prompt"></div>
 			
@@ -75,16 +75,18 @@
 			}
 
 			checkbox.addEventListener('change', () => {
-				modelViewer.querySelectorAll('button').forEach((annotation) => {
+				modelViewer.querySelectorAll('hotspot').forEach((annotation) => {
 					setVisibility(annotation);
 				});
 			});
 			
 			option.addEventListener('change', () => {
-                		modelViewer.querySelectorAll('button').forEach((annotation) => {
-                   			annotation.textContent('option');
-                		});
-           	 	});
+                		modelViewer.querySelector('annotation').forEach((annotation) => {
+                    			annotation.remove();
+                    			annotation.add();
+                    			annotation.src('option');
+               	 		})
+            		});
 			
 		</script>
 		<style>
