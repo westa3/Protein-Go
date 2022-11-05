@@ -68,13 +68,13 @@
 			function setVisibility(element) {
 				if (checkbox.checked) {
 					element.classList.remove('hide');
+					element.classList.add('show');
 				} else {
 					element.classList.add('hide');
 				}
 			}
 
 			slides.addEventListener('change', () => {
-				setVisibility(modelViewer.querySelector('#hotspot'));
 				modelViewer.querySelectorAll('button').forEach((hotspot) => {
 					setVisibility(hotspot);
 				});
