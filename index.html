@@ -16,6 +16,8 @@
           			Activate AR
       			</button>
 			
+			<hotspot class="annotation">STMV</hotspot>
+			
 			<div id="ar-prompt"></div>
 			
 			<button id="ar-failure">
@@ -67,19 +69,15 @@
 			function setVisibility(element) {
 				if (checkbox.checked) {
 					element.classList.remove('hide');
+					const hotspot = document.querySelectorAll('#hotspot');
+					hotspot.appendChild(document.createTextNode("HERE"));
+					document.appendChild(hotspot);
 				} else {
 					element.classList.add('hide');
 				}
 			}
 
 			checkbox.addEventListener('change', () => {
-				const hotspot = document.createElement('hotspot');
-				hotspot.classList.add('annotation');
-				modelViewer.appendChild(hotspot);
-
-				hotspot.appendChild(document.createTextNode("HERE"));
-				document.appendChild(hotspot);
-				
 				modelViewer.querySelectorAll('hotspot').forEach((annotation) => {
 					setVisibility(annotation);
 				});
