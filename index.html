@@ -58,11 +58,17 @@
 
 			modelViewer.querySelector('#src').addEventListener('input', (event) => {
 				modelViewer.src = event.target.value;
-				const newhotspot = document.createElement('hotspot');
-				newhotspot.slot = 'annotation';
-				newhotspot.classList.add('dim');
-				modelViewer.appendChild(newhotspot);
-                    		newhotspot.appendChild(document.createTextNode(event.target.value));
+				const hotspot = document.createElement('button');
+				hotspot.slot = `hotspot`;
+				hotspot.classList.add('hotspot');
+				hotspot.id = `hotspot`;
+				hotspot.dataset.position = position.toString();
+				modelViewer.appendChild(hotspot);
+
+				var element = document.createElement("div");
+				element.classList.add('annotation');
+				element.appendChild(document.createTextNode("HERE"));
+				document.getElementById(`hotspot`).appendChild(element);
 			});
 
 			const checkbox = modelViewer.querySelector('#show-dimensions');
