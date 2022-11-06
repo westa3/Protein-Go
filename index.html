@@ -62,11 +62,12 @@
 			
 			modelViewer.querySelector('#src').addEventListener('input', (event) => {
 				modelViewer.src = event.target.value;
-				document.removeElement("hotspot");
 				modelViewer.appendChild(hotspot);
 				hotspot.classList.add('annotation');
 				hotspot.appendChild(document.createTextNode(event.target.value));
 				document.appendChild(hotspot);
+				document.removeElement("hotspot");
+				document.removeChild(hotspot);
 			});
 
 			const checkbox = modelViewer.querySelector('#show-dimensions');
