@@ -58,10 +58,15 @@
 			
 			const initialhotspot = document.querySelector("#hotspot");
 			
+			const hotspot = document.createElement("hotspot");
+			
 			modelViewer.querySelector('#src').addEventListener('input', (event) => {
 				modelViewer.src = event.target.value;
-				initialhotspot.appendChild(document.createTextNode(event.target.value));
-				document.appendChild(initialhotspot);
+				modelViewer.appendChild(hotspot);
+				hotspot.classList.add('annotation');
+				hotspot.appendChild(document.createTextNode(event.target.value));
+				document.appendChild(hotspot);
+				document.createTextNode(event.target.value);
 			});
 
 			const checkbox = modelViewer.querySelector('#show-dimensions');
