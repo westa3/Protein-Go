@@ -66,8 +66,7 @@
 				hotspot.classList.add('annotation');
 				hotspot.appendChild(document.createTextNode(event.target.value));
 				document.appendChild(hotspot);
-				document.removeElement("hotspot");
-				document.removeChild(hotspot);
+				hotspot.appendChild(document.createTextNode(" ");
 			});
 
 			const checkbox = modelViewer.querySelector('#show-dimensions');
