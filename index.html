@@ -59,8 +59,8 @@
 			modelViewer.querySelector('#src').addEventListener('input', (event) => {
 				modelViewer.src = event.target.value;
 				const newhotspot = document.createElement('hotspot');
-				hotspot.slot = 'annotation';
-				hotspot.classList.add('dim');
+				newhotspot.slot = 'annotation';
+				newhotspot.classList.add('dim');
 				modelViewer.appendChild(newhotspot);
                     		newhotspot.appendChild(document.createTextNode(document.querySelector('option').value));
 			});
