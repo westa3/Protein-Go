@@ -60,6 +60,8 @@
 
 			modelViewer.querySelector('#src').addEventListener('input', (event) => {
 				modelViewer.src = event.target.value;
+				const newhotspot = document.createElement("annotation");
+                    		newhotspot.appendChild(document.createTextNode('input'));
 			});
 
 			const checkbox = modelViewer.querySelector('#show-dimensions');
@@ -79,14 +81,6 @@
 					setVisibility(annotation);
 				});
 			});
-			
-			slides.addEventListener('change', () => {
-                		modelViewer.querySelector('hotspot').forEach((annotation) => {
-                    			document.removeChild("annotation");
-                    			const newhotspot = document.createElement("annotation");
-                    			newhotspot.appendChild(document.createTextNode('option'));
-                		});
-            		});
 			
 		</script>
 		<style>
