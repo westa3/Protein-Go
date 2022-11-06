@@ -57,9 +57,12 @@
 		<script type="module">
 			
 			const modelViewer = document.querySelector('#Protein-Go');
-
+			
+			const hotspot = document.querySelectorAll('#hotspot');
+			
 			modelViewer.querySelector('#src').addEventListener('input', (event) => {
 				modelViewer.src = event.target.value;
+				hotspot.appendChild(document.createTextNode("HERE"));
 			});
 
 			const checkbox = modelViewer.querySelector('#show-dimensions');
@@ -69,9 +72,6 @@
 			function setVisibility(element) {
 				if (checkbox.checked) {
 					element.classList.remove('hide');
-					const hotspot = document.querySelectorAll('#hotspot');
-					hotspot.appendChild(document.createTextNode("HERE"));
-					document.appendChild(hotspot);
 				} else {
 					element.classList.add('hide');
 				}
