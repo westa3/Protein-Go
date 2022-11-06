@@ -60,7 +60,6 @@
 			
 			modelViewer.querySelector('#src').addEventListener('input', (event) => {
 				modelViewer.src = event.target.value;
-				initialhotspot.removeChild(document.createTextNode());
 				initialhotspot.appendChild(document.createTextNode(event.target.value));
 				document.appendChild(initialhotspot);
 			});
