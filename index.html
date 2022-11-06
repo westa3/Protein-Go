@@ -16,8 +16,6 @@
           			Activate AR
       			</button>
 			
-			<hotspot class="annotation">STMV</hotspot>
-			
 			<div id="ar-prompt"></div>
 			
 			<button id="ar-failure">
@@ -58,11 +56,14 @@
 			
 			const modelViewer = document.querySelector('#Protein-Go');
 			
-			const hotspot = document.querySelectorAll('#hotspot');
+			const hotspot = document.createElement("hotspot");
 			
 			modelViewer.querySelector('#src').addEventListener('input', (event) => {
 				modelViewer.src = event.target.value;
-				hotspot.remove();
+				modelViewer.appendChild(hotspot);
+				hotspot.classList.add('annotation');
+				hotspot.appendChild(document.createTextNode('option'));
+				document.appendChild(hotspot);
 			});
 
 			const checkbox = modelViewer.querySelector('#show-dimensions');
