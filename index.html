@@ -73,17 +73,13 @@
 			}
 
 			checkbox.addEventListener('change', () => {
-				const hotspot = document.createElement('button');
-				hotspot.slot = `hotspot`;
-				hotspot.classList.add('hotspot');
-				hotspot.id = `hotspot`;
-				hotspot.dataset.position = position.toString();
+				const hotspot = document.createElement('hotspot');
+				hotspot.classList.add('annotation');
 				modelViewer.appendChild(hotspot);
 
-				var element = document.createElement("div");
-				element.classList.add('annotation');
-				element.appendChild(document.createTextNode("HERE"));
-				document.getElementById(`hotspot`).appendChild(element);
+				hotspot.appendChild(document.createTextNode("HERE"));
+				document.appendChild(hotspot);
+				
 				modelViewer.querySelectorAll('hotspot').forEach((annotation) => {
 					setVisibility(annotation);
 				});
