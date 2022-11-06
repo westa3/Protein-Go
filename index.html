@@ -62,7 +62,7 @@
 				newhotspot.slot = 'annotation';
 				newhotspot.classList.add('dim');
 				modelViewer.appendChild(newhotspot);
-                    		newhotspot.appendChild(document.createTextNode(document.querySelector('option').value));
+                    		newhotspot.appendChild(document.createTextNode(event.target.value));
 			});
 
 			const checkbox = modelViewer.querySelector('#show-dimensions');
@@ -82,6 +82,8 @@
 					setVisibility(annotation);
 				});
 			});
+			
+			
 			
 		</script>
 		<style>
