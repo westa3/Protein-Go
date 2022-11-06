@@ -16,8 +16,6 @@
           			Activate AR
       			</button>
 			
-			<hotspot class="annotation">HERE</hotspot>
-			
 			<div id="ar-prompt"></div>
 			
 			<button id="ar-failure">
@@ -60,8 +58,11 @@
 
 			modelViewer.querySelector('#src').addEventListener('input', (event) => {
 				modelViewer.src = event.target.value;
-				const newhotspot = document.createElement("annotation");
-                    		newhotspot.appendChild(document.createTextNode('input'));
+				const newhotspot = document.createElement('hotspot');
+				hotspot.slot = 'annotation';
+				hotspot.classList.add('dim');
+				modelViewer.appendChild(newhotspot);
+                    		newhotspot.appendChild(document.createTextNode(document.querySelector('option').value));
 			});
 
 			const checkbox = modelViewer.querySelector('#show-dimensions');
