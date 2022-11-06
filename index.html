@@ -62,11 +62,18 @@
 			
 			modelViewer.querySelector('#src').addEventListener('input', (event) => {
 				modelViewer.src = event.target.value;
-				modelViewer.appendChild(hotspot);
-				hotspot.classList.add('annotation');
-				hotspot.appendChild(document.createTextNode(event.target.value));
-				document.appendChild(hotspot);
-				hotspot.appendChild(document.createTextNode(" ");
+				if (event.target.value == "./Polio.glb") {
+					modelViewer.appendChild(hotspot);
+					hotspot.classList.add('annotation');
+					hotspot.appendChild(document.createTextNode("Polio"));
+					document.appendChild(hotspot);
+				}
+				else if (event.target.value == "./Adenovirus.glb") {
+					modelViewer.appendChild(hotspot);
+					hotspot.classList.add('annotation');
+					hotspot.appendChild(document.createTextNode("Adenovirus"));
+					document.appendChild(hotspot);
+				}
 			});
 
 			const checkbox = modelViewer.querySelector('#show-dimensions');
