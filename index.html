@@ -59,13 +59,11 @@
 			const initialhotspot = document.querySelector("#hotspot");
 			
 			const hotspot = document.createElement("hotspot");
-	
-			const id = document.getElementById('hotspot');
 			
 			modelViewer.querySelector('#src').addEventListener('input', (event) => {
 				modelViewer.src = event.target.value;
 				if (event.target.value == "./Polio.glb") {
-					id.remove();
+					removeHotSpot();
 					modelViewer.appendChild(hotspot);
 					hotspot.id = 'hotspot';
 					hotspot.classList.add('annotation');
@@ -73,7 +71,7 @@
 					document.appendChild(hotspot);
 				}
 				else if (event.target.value == "./Adenovirus.glb") {
-					id.remove();
+					removeHotSpot();
 					modelViewer.appendChild(hotspot);
 					hotspot.id = 'hotspot';
 					hotspot.classList.add('annotation');
@@ -92,6 +90,11 @@
 				} else {
 					element.classList.add('hide');
 				}
+			}
+			
+			function removeHotSpot() {
+				const id = document.getElementById('hotspot');
+				id.remove();
 			}
 
 			checkbox.addEventListener('change', () => {
