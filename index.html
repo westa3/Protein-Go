@@ -63,6 +63,7 @@
 			modelViewer.querySelector('#src').addEventListener('input', (event) => {
 				modelViewer.src = event.target.value;
 				initialhotspot.remove();
+				hotspot.remove();
 				modelViewer.appendChild(hotspot);
 				hotspot.classList.add('annotation');
 				hotspot.id = 'hotspots';
