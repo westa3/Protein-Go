@@ -64,8 +64,8 @@
 				modelViewer.src = event.target.value;
 				initialhotspot.remove();
 				const hotspottarget = document.getElementById('hotspotted');
-				hotspottarget.remove();
 				if (event.target.value == "./Polio.glb") {
+					hotspottarget.remove();
 					modelViewer.appendChild(hotspot);
 					hotspot.classList.add('annotation');
 					hotspot.id('hotspotted');
@@ -73,6 +73,7 @@
 					document.appendChild(hotspot);
 				}
 				else if (event.target.value == "./Adenovirus.glb") {
+					hotspottarget.remove();
 					modelViewer.appendChild(hotspot);
 					hotspot.classList.add('annotation');
 					hotspot.id('hotspotted');
