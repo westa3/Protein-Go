@@ -62,6 +62,14 @@
 			
 			modelViewer.querySelector('#src').addEventListener('input', (event) => {
 				modelViewer.src = event.target.value;
+				if (event.target.value == "./Polio.glb") {
+					initialhotspot.appendChild(document.createTextNode("Polio"));
+					document.appendChild(initialhotspot);
+				};
+				else if (event.target.value == "./Adenovirus.glb") {
+					initialhotspot.appendChild(document.createTextNode("Polio"));
+					document.appendChild(initialhotspot);
+				};
 			});
 
 			const checkbox = modelViewer.querySelector('#show-dimensions');
