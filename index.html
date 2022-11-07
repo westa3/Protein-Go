@@ -15,7 +15,7 @@
 							width: 100px; height: 50px; ">
           			Activate AR
       			</button>
-			<hotspot class="annotation">STMV</hotspot>
+			<hotspot id="hotspots" class="annotation">STMV</hotspot>
 			<div id="ar-prompt"></div>
 			
 			<button id="ar-failure">
@@ -56,13 +56,13 @@
 			
 			const modelViewer = document.querySelector('#Protein-Go');
 			
-			const initialhotspot = document.querySelector("#hotspot");
+			const initialhotspot = document.getElementById('hotspots');
 			
 			const hotspot = document.createElement("hotspot");
 			
 			modelViewer.querySelector('#src').addEventListener('input', (event) => {
 				modelViewer.src = event.target.value;
-				initialhotspot.classList.add('hide');
+				initialhotspot.remove();
 				modelViewer.appendChild(hotspot);
 				hotspot.classList.add('annotation');
 				hotspot.appendChild(document.createTextNode(event.target.value));
