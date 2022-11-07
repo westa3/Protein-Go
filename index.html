@@ -70,8 +70,10 @@
 			
 			function removeHotSpot() {
 				var initialhotspot = document.getElementsByClassName('annotation');
-				initialhotspot.remove();
-			}
+				initialhotspot.forEach((annotation) => {
+					initialhotspot.classList.remove('annotation');
+				};
+			};
 
 			const checkbox = modelViewer.querySelector('#show-dimensions');
 			
