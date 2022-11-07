@@ -15,7 +15,7 @@
 							width: 100px; height: 50px; ">
           			Activate AR
       			</button>
-			<hotspot id="hotspot" class="annotation">STMV</hotspot>
+			<hotspot class="annotation">STMV</hotspot>
 			<div id="ar-prompt"></div>
 			
 			<button id="ar-failure">
@@ -62,18 +62,6 @@
 			
 			modelViewer.querySelector('#src').addEventListener('input', (event) => {
 				modelViewer.src = event.target.value;
-				if (event.target.value == "./Polio.glb") {
-					modelViewer.appendChild(hotspot);
-					hotspot.classList.add('annotation');
-					hotspot.appendChild(document.createTextNode("Polio"));
-					document.appendChild(hotspot);
-				};
-				else if (event.target.value == "./Adenovirus.glb") {
-					modelViewer.appendChild(hotspot);
-					hotspot.classList.add('annotation');
-					hotspot.appendChild(document.createTextNode("Adenovirus"));
-					document.appendChild(hotspot);
-				};
 			});
 
 			const checkbox = modelViewer.querySelector('#show-dimensions');
