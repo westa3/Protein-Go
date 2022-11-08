@@ -62,9 +62,17 @@
 			
 			modelViewer.querySelector('#src').addEventListener('input', (event) => {
 				modelViewer.src = event.target.value;
+				setPage(event.target.value);
 			});
 			
-
+			function setPage(element) {
+				var el = element;
+				var hotspots = document.getElementById('hotspot-0');
+				if (el == './Polio.glb') {
+					hotspots.createTextNode("hello");
+				};
+			};
+			
 			const checkbox = modelViewer.querySelector('#show-dimensions');
 			
 			const annotation = modelViewer.querySelector('#annotation');
@@ -80,11 +88,6 @@
 			checkbox.addEventListener('change', () => {
 				modelViewer.querySelectorAll('hotspot').forEach((annotation) => {
 					setVisibility(annotation);
-					modelViewer.appendChild(hotspot);
-					hotspot.classList.add('annotation');
-					hotspot.id = 'hotspot-${count ++}';
-					hotspot.appendChild(document.createTextNode("Hello"));
-					document.appendChild(hotspot);
 				});
 			});
 			
