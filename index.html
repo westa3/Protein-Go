@@ -69,7 +69,11 @@
 				var el = element;
 				var hotspots = document.getElementById('hotspot-0');
 				if (el == './Polio.glb') {
-					hotspots.appendChild(document.createTextNode(element.target.value));
+					hotspots.remove();
+					modelViewer.appendChild(hotspot);
+					hotspot.classList.add('annotation');
+					hotspot.appendChild(document.createTextNode(element.target.value));
+					document.appendChild(hotspot);
 				};
 			};
 			
