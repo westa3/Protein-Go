@@ -67,14 +67,10 @@
 				hotspot.id = 'hotspot-${count ++}';
 				hotspot.appendChild(document.createTextNode(event.target.value));
 				document.appendChild(hotspot);
-				removeHotSpot(count);
-				count = count + 1;
+				var initialhotspot = document.getElementById('hotspot-${count}');
+				initialhotspot.remove();
 			});
 			
-			function removeHotSpot(counter) {
-				var initialhotspot = document.getElementById('hotspot-${counter}');
-				initialhotspot.remove();
-			};
 
 			const checkbox = modelViewer.querySelector('#show-dimensions');
 			
