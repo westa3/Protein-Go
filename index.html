@@ -61,8 +61,6 @@
 			const count = 0;
 			
 			modelViewer.querySelector('#src').addEventListener('input', (event) => {
-				var initialhotspot = document.getElementById('hotspot-${count}');
-				initialhotspot.remove();
 				modelViewer.src = event.target.value;
 				modelViewer.appendChild(hotspot);
 				hotspot.classList.add('annotation');
