@@ -65,6 +65,7 @@
 				modelViewer.appendChild(hotspot);
 				hotspot.classList.add('annotation');
 				hotspot.id = 'hotspot-${count ++}';
+				count = count + 1;
 				hotspot.appendChild(document.createTextNode(event.target.value));
 				document.appendChild(hotspot);
 				removeHotSpot(count);
