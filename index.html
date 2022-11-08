@@ -67,11 +67,11 @@
 				hotspot.id = 'hotspot-${count ++}';
 				hotspot.appendChild(document.createTextNode(event.target.value));
 				document.appendChild(hotspot);
-				removeHotSpot();
+				removeHotSpot(count);
 			});
 			
 			function removeHotSpot(counter) {
-				var initialhotspot = document.getElementById('hotspot-${count}');
+				var initialhotspot = document.getElementById('hotspot-${counter}');
 				initialhotspot.remove();
 			};
 
