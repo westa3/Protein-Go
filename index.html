@@ -67,9 +67,8 @@
 				hotspot.id = 'hotspot-${count ++}';
 				hotspot.appendChild(document.createTextNode(event.target.value));
 				document.appendChild(hotspot);
-				var initialhotspot = document.getElementById('hotspot-${count}');
+				var initialhotspot = document.getElementById('hotspot-${count --}');
 				initialhotspot.remove();
-				count = count + 1;
 			});
 			
 
