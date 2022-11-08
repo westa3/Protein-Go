@@ -61,13 +61,13 @@
 			const count = 0;
 			
 			modelViewer.querySelector('#src').addEventListener('input', (event) => {
-				removeHotSpot();
 				modelViewer.src = event.target.value;
 				modelViewer.appendChild(hotspot);
 				hotspot.classList.add('annotation');
 				hotspot.id = 'hotspot-${count ++}';
 				hotspot.appendChild(document.createTextNode(event.target.value));
 				document.appendChild(hotspot);
+				removeHotSpot();
 			});
 			
 			function removeHotSpot(counter) {
