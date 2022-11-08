@@ -15,7 +15,7 @@
 							width: 100px; height: 50px; ">
           			Activate AR
       			</button>
-			<hotspot id="hotspots" class="annotation">STMV</hotspot>
+			<hotspot id="hotspot-0" class="annotation">STMV</hotspot>
 			<div id="ar-prompt"></div>
 			
 			<button id="ar-failure">
@@ -61,17 +61,17 @@
 			const count = 0;
 			
 			modelViewer.querySelector('#src').addEventListener('input', (event) => {
-				removeHotSpot(count);
+				removeHotSpot();
 				modelViewer.src = event.target.value;
 				modelViewer.appendChild(hotspot);
 				hotspot.classList.add('annotation');
-				hotspot.id = 'hotspot-${count++}';
+				hotspot.id = 'hotspot-${count ++}';
 				hotspot.appendChild(document.createTextNode(event.target.value));
 				document.appendChild(hotspot);
 			});
 			
 			function removeHotSpot(counter) {
-				var initialhotspot = document.getElementById('hotspot-${counter}');
+				var initialhotspot = document.getElementById('hotspot-${count}');
 				initialhotspot.remove();
 			};
 
