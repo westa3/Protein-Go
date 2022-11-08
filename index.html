@@ -61,14 +61,14 @@
 			const count = 0;
 			
 			modelViewer.querySelector('#src').addEventListener('input', (event) => {
+				var initialhotspot = document.getElementById('hotspot-${count}');
+				initialhotspot.remove();
 				modelViewer.src = event.target.value;
 				modelViewer.appendChild(hotspot);
 				hotspot.classList.add('annotation');
 				hotspot.id = 'hotspot-${count ++}';
 				hotspot.appendChild(document.createTextNode(event.target.value));
 				document.appendChild(hotspot);
-				var initialhotspot = document.getElementById('hotspot-${count --}');
-				initialhotspot.remove();
 			});
 			
 
