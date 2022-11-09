@@ -72,6 +72,7 @@
 					hotspots.remove();
 					modelViewer.appendChild(hotspot);
 					hotspot.classList.add('annotation');
+					hotspot.id = 'hotspot-0';
 					hotspot.appendChild(document.createTextNode(element.target.value));
 					document.appendChild(hotspot);
 				};
