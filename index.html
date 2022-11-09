@@ -73,7 +73,15 @@
 					modelViewer.appendChild(hotspot);
 					hotspot.classList.add('annotation');
 					hotspot.id = 'hotspot-0';
-					hotspot.appendChild(document.createTextNode(el.target.value));
+					hotspot.appendChild(document.createTextNode("Polio"));
+					document.appendChild(hotspot);
+				};
+				else if (el == './STMV.glb') {
+					hotspots.remove();
+					modelViewer.appendChild(hotspot);
+					hotspot.classList.add('annotation');
+					hotspot.id = 'hotspot-0';
+					hotspot.appendChild(document.createTextNode("STMV"));
 					document.appendChild(hotspot);
 				};
 			};
