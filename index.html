@@ -91,6 +91,13 @@
 					hotspot.appendChild(document.createTextNode("Polio"));
 					document.appendChild(hotspot);
 				};
+				else if (el == './STMV.glb') {
+					modelViewer.appendChild(hotspot);
+					hotspot.classList.add('annotation');
+					hotspot.id = 'hotspot-0';
+					hotspot.appendChild(document.createTextNode("Polio"));
+					document.appendChild(hotspot);
+				};
 			};
 			
 			const checkbox = modelViewer.querySelector('#show-dimensions');
