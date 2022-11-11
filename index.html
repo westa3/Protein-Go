@@ -15,7 +15,7 @@
 							width: 100px; height: 50px; ">
           			Activate AR
       			</button>
-			<hotspot id="hotspot-0" class="annotation">STMV</hotspot>
+
 			<div id="ar-prompt"></div>
 			
 			<button id="ar-failure">
@@ -61,8 +61,6 @@
 					<option value="./Turnip.glb">Turnip</option>
 				</select><br>
 
-				<label for="show-dimensions">Show Info:</label>
-				<input id="show-dimensions" type="checkbox" checked="true" style="height: 50px; width: 50px">
 			</div>
 
 	
@@ -71,51 +69,8 @@
 			
 			const modelViewer = document.querySelector('#Protein-Go');
 			
-			const hotspot = document.createElement('hotspot');
-			
-			const count = 0;
-			
 			modelViewer.querySelector('#src').addEventListener('input', (event) => {
 				modelViewer.src = event.target.value;
-				setPage(event.target.value);
-			});
-			
-			function setPage(element) {
-				var el = element;
-				var hotspots = document.getElementById('hotspot-0');
-				hotspots.remove();
-				if (el == './Polio.glb') {
-					modelViewer.appendChild(hotspot);
-					hotspot.classList.add('annotation');
-					hotspot.id = 'hotspot-0';
-					hotspot.appendChild(document.createTextNode("Polio"));
-					document.appendChild(hotspot);
-				};
-				else if (el == './STMV.glb') {
-					modelViewer.appendChild(hotspot);
-					hotspot.classList.add('annotation');
-					hotspot.id = 'hotspot-0';
-					hotspot.appendChild(document.createTextNode("Polio"));
-					document.appendChild(hotspot);
-				};
-			};
-			
-			const checkbox = modelViewer.querySelector('#show-dimensions');
-			
-			const annotation = modelViewer.querySelector('#annotation');
-			
-			function setVisibility(element) {
-				if (checkbox.checked) {
-					element.classList.remove('hide');
-				} else {
-					element.classList.add('hide');
-				};
-			};
-
-			checkbox.addEventListener('change', () => {
-				modelViewer.querySelectorAll('hotspot').forEach((annotation) => {
-					setVisibility(annotation);
-				});
 			});
 			
 		</script>
